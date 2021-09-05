@@ -1,0 +1,31 @@
+{
+  "name": "Osmosis Rewards Countdown (Unofficial)",
+  "description": "Unofficial rewards countdown for Osmosis.zone",
+  "version": "0.0.1",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Osmosis Rewards Countdown (Unofficial)\n\nInitializing... \n\nClick to go to https://app.osmosis.zone/pools\n\n",
+    "default_icon": {
+      "16": "/images/icon-16x16.png",
+      "32": "/images/icon-32x32.png",
+      "48": "/images/icon-48x48.png",
+      "128": "/images/icon-128x128.png"
+    }
+  },
+  "icons": {
+    "16": "/images/icon-16x16.png",
+    "32": "/images/icon-32x32.png",
+    "48": "/images/icon-48x48.png",
+    "128": "/images/icon-128x128.png"
+  },
+  "permissions": [
+    "storage",
+    "alarms"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ]
+}
