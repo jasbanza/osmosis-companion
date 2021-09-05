@@ -1,7 +1,7 @@
 {
   "name": "Osmosis Rewards Countdown (Unofficial)",
-  "description": "Unofficial rewards countdown for Osmosis.zone",
-  "version": "0.0.1",
+  "description": "LP Reward countdown & alerts for https://app.osmosis.zone",
+  "version": "0.1.0",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"
