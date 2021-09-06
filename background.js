@@ -4,9 +4,12 @@ chrome.runtime.onInstalled.addListener(function(tab) {
   console.log("Installed");
 });
 
-chrome.action.onClicked.addListener(function(activeTab){
+
+chrome.action.onClicked.addListener(function(activeTab) {
   var newURL = "https://app.osmosis.zone/pools";
-  chrome.tabs.create({ url: newURL });
+  chrome.tabs.create({
+    url: newURL
+  });
 });
 
 // initial setup:
@@ -18,6 +21,7 @@ chrome.action.setBadgeBackgroundColor({
 });
 
 // Timer setup
+// TODO: make timer syncronize with the real countdown...
 chrome.alarms.create("countdown", {
   delayInMinutes: DELAY,
   periodInMinutes: DELAY
@@ -50,10 +54,10 @@ function updateCountdownDisplay(epoch_end_unix) {
   var prettyPrint = "";
   if (totSecs > 3600) {
     strTime = strTime.substr(11, 5);
-    prettyPrint = strTime.substr(0, 2) + " hours, "+strTime.substr(3, 2)+" minutes";//,"+strTime.substr(6, 2)+" seconds.";
+    prettyPrint = strTime.substr(0, 2) + " hours, " + strTime.substr(3, 2) + " minutes"; //,"+strTime.substr(6, 2)+" seconds.";
   } else {
-    strTime = strTime.substr(14, 5);
-    prettyPrint = strTime.substr(3, 2)+" minutes,"+strTime.substr(6, 2)+" seconds.";
+    strTime = strTime.substr(14, 2) + "m"; //strTime.substr(14, 5);
+    prettyPrint = strTime + " minutes.";
   }
 
   if (totSecs > 0) {
@@ -70,20 +74,30 @@ function updateCountdownDisplay(epoch_end_unix) {
     });
 
   } else {
-    rewardDistribution();
+    chrome.action.setBadgeText({
+      text: "dist..."
+    });
+
+    // only call API again after ~10 minutes, as it seems to be delayed during rewards...
+    if (totSecs > -600) {
+
+      chrome.action.setTitle({
+        title: "Osmosis Rewards Countdown (Unofficial)\n\nClaim your rewards now!\n\nClick to go to https://app.osmosis.zone/pools\n\n\nGetting next epoch from API in " + Math.floor((600 + totSecs)/60) + " minutes...\n\n"
+      });
+
+    } else {
+      rewardDistribution();
+    }
   }
 }
 
 function rewardDistribution() {
-  chrome.action.setBadgeText({
-    text: "..."
-  });
   // if epoch is met, call API and save to localstorage.
   console.log("rewards distributed! Getting next epoch from API endpoint...");
   updateEpochFromAPI();
 }
 
-let badgeText = "wait";
+let badgeText = "load...";
 chrome.action.setBadgeText({
   text: badgeText
 });
