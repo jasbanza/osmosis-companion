@@ -1,22 +1,39 @@
-# osmo-rewards-extension
-A mv3 browser extension displaying the Osmosis Liquidity Pool rewards distribution countdown found at https://app.osmosis.zone/
+# Osmosis Rewards Countdown (Unofficial)
 
-- This extension uses the same API endpoint found on the Osmosis website.
-https://lcd-osmosis.keplr.app/osmosis/epochs/v1beta1/epochs
+### LP Reward countdown & alerts for https://app.osmosis.zone
+A simple utility to display the time until the next reward distribution at https://app.osmosis.zone/pools
 
-- It persists the reward epoch end time variable in the browser's local storage and refreshes the displayed countdown timer every minute.
+- Shows time until the next reward distribution
+- Clicking the icon opens a tab for https://app.osmosis.zone/pools
+- Customizable alarm notification (Coming Soon)
 
-- When the timer reaches Zero, it will fetch the next epoch time from the API.
+***Please note that this is made as a utility by a community member, and not an official Osmosis product.***
 
-- Clicking on the extension will open up https://app.osmosis.zone/ in a new tab.
+Disclaimer, Privacy notice & License can be found in the Github repo:
+https://github.com/slimslyde/osmosis-rewards-extension
 
-TODO:
-- Options page
-- Popup reminders (customizable in options)
-
-Tested in Google Chrome & Brave.
-
-⭐ Please consider donating:
+⭐ If you like this, please consider donating:
 https://app.starname.me/profile/jason
 
-I am a community member, not part of any official development team. Use this plugin at your own risk. Do your own research. Not Financial Advice.
+📌 Current Version & Changelog:
+v0.1.1: After distribution added a delay of 10 minutes before calling API again.
+
+=========
+
+Roadmap:
+
+📌 v0.2.0: 
+  - reminder / alert notification
+  - unclaimed rewards
+  - options
+  - add popup
+  - donation link
+
+📌 v0.3.0:
+  - Show all osmosis token prices
+
+📌 v0.4.0:
+  - Balances (wallets)
+  
+📌 v0.5.0:
+  - price alerts
