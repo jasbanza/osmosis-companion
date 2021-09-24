@@ -1,13 +1,14 @@
 {
-  "name": "Osmosis Rewards Countdown (Unofficial)",
-  "description": "LP Reward countdown & alerts for https://app.osmosis.zone",
-  "version": "0.1.1",
+  "name": "Osmosis Companion (Unofficial)",
+  "version": "0.2.0",
+  "description": "Osmosis Companion (Unofficial) - LP rewards countdown, portfolio dashboard & price alerts",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"
   },
   "action": {
-    "default_title": "Osmosis Rewards Countdown (Unofficial)\n\nInitializing... \n\nClick to go to https://app.osmosis.zone/pools\n\n",
+    "default_popup": "popup.html",
+    "default_title": "Osmosis Companion (Unofficial)\n\nInitializing... \n\nClick here for science!\n\n",
     "default_icon": {
       "16": "/images/icon-16x16.png",
       "32": "/images/icon-32x32.png",
@@ -24,5 +25,6 @@
   "permissions": [
     "storage",
     "alarms"
-  ]
+  ],
+  "options_page": "options.html"
 }

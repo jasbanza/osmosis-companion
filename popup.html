@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <script type="text/javascript" src="popup.js"></script>
+  <link rel="stylesheet" href="popup.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap">
+</head>
+
+<body>
+  <div class="toolbar-container">
+    <div class="toolbar">
+      <div class="toolbar-section toolbar-item tooltip">
+        <a href="https://github.com/slimslyde/osmosis-companion#readme" style="text-decoration:none;" target="_blank">Osmosis Companion <div style="font-size:6pt">version 0.2.0</div>
+        </a>
+        <span class="tooltiptext tooltip-left">Visit GitHub</span>
+      </div>
+      <!-- tabs  -->
+      <div class="toolbar-section">
+        <div class="toolbar-item toolbar-item-active">My Assets</div>
+        <div class="toolbar-item">My Pools</div>
+        <div class="toolbar-item">Tokens</div>
+      </div>
+      <!-- menu  -->
+      <div class="toolbar-section">
+        <div class="toolbar-item toolbar-icon tooltip">↻<span class="tooltiptext tooltip-right">Force refresh</span></div>
+        <div class="toolbar-item toolbar-icon tooltip">🗯<span class="tooltiptext tooltip-right">Alerts</span></div>
+        <div class="toolbar-item toolbar-icon tooltip">✉<span class="tooltiptext tooltip-right">Notifications</span></div>
+        <div class="toolbar-item toolbar-icon tooltip">⚙<span class="tooltiptext tooltip-right">Settings</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="corner-left">
+    <div class="corner-left-mask">
+    </div>
+  </div>
+  <div class="corner-right">
+    <div class="corner-right-mask">
+    </div>
+  </div>
+  <div class="wrapper selected" id="balances">
+    <table style="width: 100%; padding-bottom: 32px;">
+      <thead>
+        <tr class="table-header">
+          <td class="inner-td">
+            <p class="table-header-text">Asset / Chain</p>
+          </td>
+          <td class="inner-td td-balance">
+            <p class="table-header-text">Price</p>
+          </td>
+          <td class="inner-td td-balance">
+            <p class="table-header-text">Balance</p>
+          </td>
+          <td class="inner-td td-balance">
+            <p class="table-header-text">Value</p>
+          </td>
+        </tr>
+      </thead>
+      <tbody style="width: 100%;">
+        <tr class="inner-tr">
+          <td class="inner-td"><img class=" no-js-osmosis" src="https://app.osmosis.zone/public/assets/tokens/osmosis.svg" alt="img">
+            <p class="phat-ass-white-text">OSMO</p>
+          </td>
+          <td class="inner-td td-price">
+            <p class="phat-ass-white-text">$6.72</p>
+          </td>
+          <td class="inner-td td-balance">
+            <p class="phat-ass-white-text">10</p>
+          </td>
+          <td class="inner-td td-value">
+            <p class="phat-ass-white-text">$56.32</p>
+          </td>
+        </tr>
+        <tr class="inner-tr">
+          <td class="inner-td"><img class=" no-js-ion" src="https://app.osmosis.zone/public/assets/tokens/ion.png" alt="img">
+            <p class="phat-ass-white-text">ION</p>
+          </td>
+          <td class="inner-td td-price">
+            <p class="phat-ass-white-text">$4,412.43</p>
+          </td>
+          <td class="inner-td td-balance">
+            <p class="phat-ass-white-text">1</p>
+          </td>
+          <td class="inner-td td-value">
+            <p class="phat-ass-white-text">$4,412.43</p>
+          </td>
+        </tr>
+        <tr class="inner-tr">
+          <td class="inner-td"><img class=" no-js-cosmos" src="https://app.osmosis.zone/public/assets/tokens/cosmos.svg" alt="img">
+            <p class="phat-ass-white-text">Cosmos Hub - ATOM</p>
+          </td>
+          <td class="inner-td td-price">
+            <p class="phat-ass-white-text">$41.18</p>
+          </td>
+          <td class="inner-td td-balance">
+            <p class="phat-ass-white-text">100</p>
+          </td>
+          <td class="inner-td td-value">
+            <p class="phat-ass-white-text">$4,118</p>
+          </td>
+        </tr>
+        <tr class="inner-tr">
+          <td class="inner-td"><img class=" no-js-akt" src="https://app.osmosis.zone/public/assets/tokens/akt.svg" alt="img">
+            <p class="phat-ass-white-text">Akash - AKT</p>
+          </td>
+          <td class="inner-td td-price">
+            <p class="phat-ass-white-text">$4.94</p>
+          </td>
+          <td class="inner-td td-balance">
+            <p class="phat-ass-white-text">300</p>
+          </td>
+          <td class="inner-td td-value">
+            <p class="phat-ass-white-text">$1,482</p>
+          </td>
+        </tr>
+        <tr class="inner-tr">
+          <td class="inner-td"><img class=" no-js-regen" src="https://app.osmosis.zone/public/assets/tokens/regen.png" alt="img">
+            <p class="phat-ass-white-text">Regen Network - REGEN</p>
+          </td>
+          <td class="inner-td td-price">
+            <p class="phat-ass-white-text">$4.64</p>
+          </td>
+          <td class="inner-td td-balance">
+            <p class="phat-ass-white-text">124</p>
+          </td>
+          <td class="inner-td td-value">
+            <p class="phat-ass-white-text">$575.36</p>
+          </td>
+        </tr>
+        <tr class="inner-tr">
+          <td class="inner-td"><img class=" no-js-dvpn" src="https://app.osmosis.zone/public/assets/tokens/dvpn.png" alt="img">
+            <p class="phat-ass-white-text">Sentinel - DVPN</p>
+          </td>
+          <td class="inner-td td-price">
+            <p class="phat-ass-white-text">$0.04</p>
+          </td>
+          <td class="inner-td td-balance">
+            <p class="phat-ass-white-text">26,345</p>
+          </td>
+          <td class="inner-td td-value">
+            <p class="phat-ass-white-text">$1,053.80</p>
+          </td>
+        </tr>
+        <tr class="inner-tr">
+          <td class="inner-td"><img class=" no-js-xprt" src="https://app.osmosis.zone/public/assets/tokens/xprt.png" alt="img">
+            <p class="phat-ass-white-text">Persistence - XPRT</p>
+          </td>
+          <td class="inner-td td-price">
+            <p class="phat-ass-white-text">$11.22</p>
+          </td>
+          <td class="inner-td td-balance">
+            <p class="phat-ass-white-text">86</p>
+          </td>
+          <td class="inner-td td-value">
+            <p class="phat-ass-white-text">$964.92</p>
+          </td>
+        </tr>
+        <tr class="inner-tr">
+          <td class="inner-td"><img class=" no-js-iris" src="https://app.osmosis.zone/public/assets/tokens/iris.svg" alt="img">
+            <p class="phat-ass-white-text">IRISnet - IRIS</p>
+          </td>
+          <td class="inner-td td-price">
+            <p class="phat-ass-white-text">$0.14</p>
+          </td>
+          <td class="inner-td td-balance">
+            <p class="phat-ass-white-text">1029</p>
+          </td>
+          <td class="inner-td td-value">
+            <p class="phat-ass-white-text">$144.06</p>
+          </td>
+        </tr>
+        <tr class="inner-tr">
+          <td class="inner-td"><img class=" no-js-cro" src="https://app.osmosis.zone/public/assets/tokens/cro.png" alt="img">
+            <p class="phat-ass-white-text">Crypto.org - CRO</p>
+          </td>
+          <td class="inner-td td-price">
+            <p class="phat-ass-white-text">$0.17</p>
+          </td>
+          <td class="inner-td td-balance">
+            <p class="phat-ass-white-text">100</p>
+          </td>
+          <td class="inner-td td-value">
+            <p class="phat-ass-white-text">$17.23</p>
+          </td>
+        </tr>
+        <tr class="inner-tr">
+          <td class="inner-td"><img class=" no-js-iov" src="https://app.osmosis.zone/public/assets/tokens/iov.png" alt="img">
+            <p class="phat-ass-white-text">Starname - IOV</p>
+          </td>
+          <td class="inner-td td-price">
+            <p class="phat-ass-white-text">$0.10</p>
+          </td>
+          <td class="inner-td td-balance">
+            <p class="phat-ass-white-text">3000</p>
+          </td>
+          <td class="inner-td td-value">
+            <p class="phat-ass-white-text">$300.00</p>
+          </td>
+        </tr>
+        <tr class="inner-tr">
+          <td class="inner-td"><img class=" no-js-ngm" src="https://app.osmosis.zone/public/assets/tokens/ngm.png" alt="img">
+            <p class="phat-ass-white-text">e-Money - NGM</p>
+          </td>
+          <td class="inner-td td-price">
+            <p class="phat-ass-white-text">$0.50</p>
+          </td>
+          <td class="inner-td td-balance">
+            <p class="phat-ass-white-text">10</p>
+          </td>
+          <td class="inner-td td-value">
+            <p class="phat-ass-white-text">$5</p>
+          </td>
+        </tr>
+        <tr class="inner-tr">
+          <td class="inner-td"><img class=" no-js-ngm" src="https://app.osmosis.zone/public/assets/tokens/ngm.png" alt="img">
+            <p class="phat-ass-white-text">e-Money - EEUR</p>
+          </td>
+          <td class="inner-td td-price">
+            <p class="phat-ass-white-text">$0.85</p>
+          </td>
+          <td class="inner-td td-balance">
+            <p class="phat-ass-white-text">1000</p>
+          </td>
+          <td class="inner-td td-value">
+            <p class="phat-ass-white-text">$850</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+
+</html>
