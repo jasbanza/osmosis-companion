@@ -51,24 +51,26 @@ table {
   padding-bottom: 16px;
 } */
 .table-header {
+  height: 37px;
   display: flex;
   -webkit-box-align: center;
   align-items: center;
   width: 100%;
-  padding-left: 25px;
-  padding-right: 30px;
+  padding-left: 15px;
+  padding-right: 15px;
   border-bottom-width: 1px;
   background-color: rgb(45, 39, 85);
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.44);
 }
 
 .table-header-text {
   font-family: Inter, ui-sans-serif, system-ui;
   font-size: 14px;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.44);
+  cursor: pointer;
 }
 
 td,
@@ -77,7 +79,7 @@ p {
 }
 
 /* tr border: #3e3861 */
-.phat-ass-white-text {
+.paw-text {
   font-family: Inter, ui-sans-serif, system-ui;
   font-size: 12px;
   font-weight: 400;
@@ -92,8 +94,8 @@ p {
   -webkit-box-align: center;
   align-items: center;
   border-bottom-width: 1px;
-  padding-left: 20px;
-  padding-right: 30px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .inner-tr:last-child {
@@ -110,8 +112,23 @@ p {
   justify-content: flex-start;
 }
 
+.inner-td .ticker {
+  color: rgba(255, 255, 255, 0.45);
+  font-weight: 400;
+  font-size: 8pt;
+}
+
 .inner-td:last-child {
   justify-content: flex-end;
+}
+
+.td-name p {
+  cursor: pointer;
+}
+
+.td-name p:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .td-price, .td-value {
@@ -144,19 +161,23 @@ img {
   margin-right: 10px;
 }
 
-td:nth-child(1) {
-  width: 46%;
+td.td-rank {
+  width: 6%;
 }
 
-td:nth-child(2) {
+td.td-name {
+  width: 40%;
+}
+
+td.td-price {
   width: 18%;
 }
 
-td:nth-child(3) {
+td.td-balance {
   width: 18%;
 }
 
-td:nth-child(4) {
+td.td-value {
   width: 18%;
 }
 
@@ -202,6 +223,15 @@ td:nth-child(4) {
   transition: all 0.2s;
   text-decoration: none;
   cursor: pointer;
+}
+
+.toolbar-a {
+  padding: 0;
+}
+
+.toolbar-a a {
+  padding: 6px;
+  text-decoration: none;
 }
 
 .toolbar-icon {
@@ -287,7 +317,104 @@ td:nth-child(4) {
   left: 15px;
 }
 
+.tooltip-bottom-right {
+  right: 15px;
+  top: inherit !important;
+  bottom: 35px !important;
+}
+
+.tooltip-bottom-left {
+  left: 15px;
+  top: inherit !important;
+  bottom: 5px !important;
+}
+
 /* Show the tooltip text when you mouse over the tooltip container */
 .tooltip:hover .tooltiptext {
   visibility: visible;
+}
+
+/* Table column sorting */
+.sort-button {
+  cursor: pointer;
+  /* margin-left: 5px; */
+  font-size: 16px;
+  font-weight: 600;
+  transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, transform 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.sort-button.descending, .sort-button.ascending {
+  color: rgba(255, 255, 255, 0.87);
+}
+
+.table-header .inner-td:hover,
+.table-header-text:hover,
+.sort-button:not(.descending):not(.ascending):hover {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.table-header .inner-td:hover>.sort-button:not(.descending):not(.ascending):not(.after)::before,
+.table-header-text:hover+.sort-button:not(.descending):not(.ascending):not(.after)::before,
+.sort-button:not(.descending):not(.ascending):not(.after):hover::before {
+  margin-right: 5px;
+  content: '⬇';
+}
+
+.table-header .inner-td:hover>.sort-button:not(.descending):not(.ascending).after::after,
+.table-header-text:hover+.sort-button:not(.descending):not(.ascending).after::after,
+.sort-button:not(.descending):not(.ascending).after:hover::after {
+  margin-left: 5px;
+  content: '⬇';
+}
+
+.sort-button.descending:not(.after)::before, .sort-button.ascending:not(.after)::before {
+  margin-right: 5px;
+  content: '⬇';
+}
+
+.sort-button.descending.after::after, .sort-button.ascending.after::after {
+  margin-left: 5px;
+  content: '⬇';
+}
+
+.sort-button.ascending:not(.after)::before, .sort-button.ascending.after::after {
+  content: '⬆';
+}
+
+/* Masking */
+.masked {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+#maskText {
+  display: none;
+  font-family: Inter, ui-sans-serif, system-ui;
+  color: white;
+  font-size: 12px;
+  font-weight: 400;
+  text-align: center;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+}
+
+#maskText.show-mask {
+  display: block;
+}
+
+.last-refreshed {
+  font-family: Inter, ui-sans-serif, system-ui;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 8pt;
+  line-height: 100%;
+  cursor: pointer;
+  text-align: right;
+  margin-top: 7px;
+  margin-right: 5px;
+}
+
+.last-refreshed:hover {
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: underline;
 }

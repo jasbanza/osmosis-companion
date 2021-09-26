@@ -12,23 +12,23 @@
 <body>
   <div class="toolbar-container">
     <div class="toolbar">
-      <div class="toolbar-section toolbar-item tooltip">
-        <a href="https://github.com/slimslyde/osmosis-companion#readme" style="text-decoration:none;" target="_blank">Osmosis Companion <div style="font-size:6pt">version 0.2.0</div>
+      <div class="toolbar-section toolbar-item tooltip toolbar-a">
+        <a href="https://github.com/slimslyde/osmosis-companion#readme" target="_blank">Osmosis Companion <div style="font-size:6pt">version 0.2.0</div>
         </a>
         <span class="tooltiptext tooltip-left">Visit GitHub</span>
       </div>
       <!-- tabs  -->
       <div class="toolbar-section">
+        <div class="toolbar-item tooltip">Dashboard<span class="tooltiptext tooltip-right">wen? #soon</span></div>
         <div class="toolbar-item toolbar-item-active">My Assets</div>
-        <div class="toolbar-item">My Pools</div>
-        <div class="toolbar-item">Tokens</div>
+        <div class="toolbar-item tooltip">My Pools<span class="tooltiptext tooltip-right">wen? #soon</span></div>
       </div>
       <!-- menu  -->
       <div class="toolbar-section">
-        <div class="toolbar-item toolbar-icon tooltip">↻<span class="tooltiptext tooltip-right">Force refresh</span></div>
-        <div class="toolbar-item toolbar-icon tooltip">🗯<span class="tooltiptext tooltip-right">Alerts</span></div>
-        <div class="toolbar-item toolbar-icon tooltip">✉<span class="tooltiptext tooltip-right">Notifications</span></div>
-        <div class="toolbar-item toolbar-icon tooltip">⚙<span class="tooltiptext tooltip-right">Settings</span></div>
+        <div class="toolbar-item toolbar-icon tooltip" id="btnRefresh">↻<span class="tooltiptext tooltip-right">Force refresh</span></div>
+        <div class="toolbar-item toolbar-icon tooltip masked">🗯<span class="tooltiptext tooltip-right">Alerts (wen? #soon)</span></div>
+        <div class="toolbar-item toolbar-icon tooltip masked">✉<span class="tooltiptext tooltip-right">Notifications (wen? #soon)</span></div>
+        <div class="toolbar-item toolbar-icon tooltip masked">⚙<span class="tooltiptext tooltip-right">Settings (wen? #soon)</span></div>
       </div>
     </div>
   </div>
@@ -40,196 +40,249 @@
     <div class="corner-right-mask">
     </div>
   </div>
-  <div class="wrapper selected" id="balances">
+  <div class="wrapper selected" id="tab_myAssets">
     <table style="width: 100%; padding-bottom: 32px;">
       <thead>
         <tr class="table-header">
-          <td class="inner-td">
-            <p class="table-header-text">Asset / Chain</p>
+          <td class="inner-td td-rank">
+            <p class="table-header-text">
+              <div class="sort-button after" data-sort="rank">#</div>
+            </p>
+          </td>
+          <td class="inner-td td-name">
+            <p class="table-header-text">
+              <div class="sort-button after" data-sort="name">Asset / Chain</div>
+            </p>
+          </td>
+          <td class="inner-td td-price">
+            <p class="table-header-text">
+              <div class="sort-button" data-sort="price">Price</div>
+            </p>
           </td>
           <td class="inner-td td-balance">
-            <p class="table-header-text">Price</p>
+            <p class="table-header-text">
+              <div class="sort-button" data-sort="balance">Balance</div>
+            </p>
           </td>
-          <td class="inner-td td-balance">
-            <p class="table-header-text">Balance</p>
-          </td>
-          <td class="inner-td td-balance">
-            <p class="table-header-text">Value</p>
+          <td class="inner-td td-value">
+            <p class="table-header-text">
+              <div class="sort-button" data-sort="value">Value</div>
+            </p>
           </td>
         </tr>
       </thead>
-      <tbody style="width: 100%;">
-        <tr class="inner-tr">
-          <td class="inner-td"><img class=" no-js-osmosis" src="https://app.osmosis.zone/public/assets/tokens/osmosis.svg" alt="img">
-            <p class="phat-ass-white-text">OSMO</p>
+      <tbody style="width: 100%;" id="assets_tbody">
+        <tr class="inner-tr" data-ticker="OSMO" data-name="OSMO" data-price data-balance data-value>
+          <td class="inner-td td-rank paw-text">
+            ...
+          </td>
+          <td class="inner-td td-name"><img src="images/tokens/osmo.png" alt="img">
+            <p class="paw-text tooltip"></p>
           </td>
           <td class="inner-td td-price">
-            <p class="phat-ass-white-text">$6.72</p>
+            <p class="paw-text">...</p>
           </td>
           <td class="inner-td td-balance">
-            <p class="phat-ass-white-text">10</p>
+            <p class="paw-text">...</p>
           </td>
           <td class="inner-td td-value">
-            <p class="phat-ass-white-text">$56.32</p>
+            <p class="paw-text">...</p>
           </td>
         </tr>
-        <tr class="inner-tr">
-          <td class="inner-td"><img class=" no-js-ion" src="https://app.osmosis.zone/public/assets/tokens/ion.png" alt="img">
-            <p class="phat-ass-white-text">ION</p>
+        <tr class="inner-tr" data-ticker="ION" data-name="ION" data-price data-balance data-value>
+          <td class="inner-td td-rank paw-text">
+            ...
+          </td>
+          <td class="inner-td td-name"><img src="images/tokens/ion.png" alt="img">
+            <p class="paw-text tooltip"></p>
           </td>
           <td class="inner-td td-price">
-            <p class="phat-ass-white-text">$4,412.43</p>
+            <p class="paw-text">...</p>
           </td>
           <td class="inner-td td-balance">
-            <p class="phat-ass-white-text">1</p>
+            <p class="paw-text">...</p>
           </td>
           <td class="inner-td td-value">
-            <p class="phat-ass-white-text">$4,412.43</p>
+            <p class="paw-text">...</p>
           </td>
         </tr>
-        <tr class="inner-tr">
-          <td class="inner-td"><img class=" no-js-cosmos" src="https://app.osmosis.zone/public/assets/tokens/cosmos.svg" alt="img">
-            <p class="phat-ass-white-text">Cosmos Hub - ATOM</p>
+        <tr class="inner-tr" data-ticker="ATOM" data-name="Cosmos Hub - ATOM" data-price data-balance data-value>
+          <td class="inner-td td-rank paw-text">
+            ...
+          </td>
+          <td class="inner-td td-name"><img src="images/tokens/atom.png" alt="img">
+            <p class="paw-text tooltip"></p>
           </td>
           <td class="inner-td td-price">
-            <p class="phat-ass-white-text">$41.18</p>
+            <p class="paw-text">...</p>
           </td>
           <td class="inner-td td-balance">
-            <p class="phat-ass-white-text">100</p>
+            <p class="paw-text">...</p>
           </td>
           <td class="inner-td td-value">
-            <p class="phat-ass-white-text">$4,118</p>
+            <p class="paw-text">...</p>
           </td>
         </tr>
-        <tr class="inner-tr">
-          <td class="inner-td"><img class=" no-js-akt" src="https://app.osmosis.zone/public/assets/tokens/akt.svg" alt="img">
-            <p class="phat-ass-white-text">Akash - AKT</p>
+        <tr class="inner-tr" data-ticker="AKT" data-name="Akash - AKT" data-price data-balance data-value>
+          <td class="inner-td td-rank paw-text">
+            ...
+          </td>
+          <td class="inner-td td-name"><img src="images/tokens/akt.png" alt="img">
+            <p class="paw-text tooltip"></p>
           </td>
           <td class="inner-td td-price">
-            <p class="phat-ass-white-text">$4.94</p>
+            <p class="paw-text">...</p>
           </td>
           <td class="inner-td td-balance">
-            <p class="phat-ass-white-text">300</p>
+            <p class="paw-text">...</p>
           </td>
           <td class="inner-td td-value">
-            <p class="phat-ass-white-text">$1,482</p>
+            <p class="paw-text">...</p>
           </td>
         </tr>
-        <tr class="inner-tr">
-          <td class="inner-td"><img class=" no-js-regen" src="https://app.osmosis.zone/public/assets/tokens/regen.png" alt="img">
-            <p class="phat-ass-white-text">Regen Network - REGEN</p>
+        <tr class="inner-tr" data-ticker="REGEN" data-name="Regen Network - REGEN" data-price data-balance data-value>
+          <td class="inner-td td-rank paw-text">
+            ...
+          </td>
+          <td class="inner-td td-name"><img src="images/tokens/regen.png" alt="img">
+            <p class="paw-text tooltip"></p>
           </td>
           <td class="inner-td td-price">
-            <p class="phat-ass-white-text">$4.64</p>
+            <p class="paw-text">...</p>
           </td>
           <td class="inner-td td-balance">
-            <p class="phat-ass-white-text">124</p>
+            <p class="paw-text">...</p>
           </td>
           <td class="inner-td td-value">
-            <p class="phat-ass-white-text">$575.36</p>
+            <p class="paw-text">...</p>
           </td>
         </tr>
-        <tr class="inner-tr">
-          <td class="inner-td"><img class=" no-js-dvpn" src="https://app.osmosis.zone/public/assets/tokens/dvpn.png" alt="img">
-            <p class="phat-ass-white-text">Sentinel - DVPN</p>
+        <tr class="inner-tr" data-ticker="DVPN" data-name="Sentinel - DVPN" data-price data-balance data-value>
+          <td class="inner-td td-rank paw-text">
+            ...
+          </td>
+          <td class="inner-td td-name"><img src="images/tokens/dvpn.png" alt="img">
+            <p class="paw-text tooltip"></p>
           </td>
           <td class="inner-td td-price">
-            <p class="phat-ass-white-text">$0.04</p>
+            <p class="paw-text">...</p>
           </td>
           <td class="inner-td td-balance">
-            <p class="phat-ass-white-text">26,345</p>
+            <p class="paw-text">...</p>
           </td>
           <td class="inner-td td-value">
-            <p class="phat-ass-white-text">$1,053.80</p>
+            <p class="paw-text">...</p>
           </td>
         </tr>
-        <tr class="inner-tr">
-          <td class="inner-td"><img class=" no-js-xprt" src="https://app.osmosis.zone/public/assets/tokens/xprt.png" alt="img">
-            <p class="phat-ass-white-text">Persistence - XPRT</p>
+        <tr class="inner-tr" data-ticker="XPRT" data-name="Persistence - XPRT" data-price data-balance data-value>
+          <td class="inner-td td-rank paw-text">
+            ...
+          </td>
+          <td class="inner-td td-name"><img src="images/tokens/xprt.png" alt="img">
+            <p class="paw-text tooltip"></p>
           </td>
           <td class="inner-td td-price">
-            <p class="phat-ass-white-text">$11.22</p>
+            <p class="paw-text">...</p>
           </td>
           <td class="inner-td td-balance">
-            <p class="phat-ass-white-text">86</p>
+            <p class="paw-text">...</p>
           </td>
           <td class="inner-td td-value">
-            <p class="phat-ass-white-text">$964.92</p>
+            <p class="paw-text">...</p>
           </td>
         </tr>
-        <tr class="inner-tr">
-          <td class="inner-td"><img class=" no-js-iris" src="https://app.osmosis.zone/public/assets/tokens/iris.svg" alt="img">
-            <p class="phat-ass-white-text">IRISnet - IRIS</p>
+        <tr class="inner-tr" data-ticker="IRIS" data-name="IRISnet - IRIS" data-price data-balance data-value>
+          <td class="inner-td td-rank paw-text">
+            ...
+          </td>
+          <td class="inner-td td-name"><img src="images/tokens/iris.png" alt="img">
+            <p class="paw-text tooltip"></p>
           </td>
           <td class="inner-td td-price">
-            <p class="phat-ass-white-text">$0.14</p>
+            <p class="paw-text">...</p>
           </td>
           <td class="inner-td td-balance">
-            <p class="phat-ass-white-text">1029</p>
+            <p class="paw-text">...</p>
           </td>
           <td class="inner-td td-value">
-            <p class="phat-ass-white-text">$144.06</p>
+            <p class="paw-text">...</p>
           </td>
         </tr>
-        <tr class="inner-tr">
-          <td class="inner-td"><img class=" no-js-cro" src="https://app.osmosis.zone/public/assets/tokens/cro.png" alt="img">
-            <p class="phat-ass-white-text">Crypto.org - CRO</p>
+        <tr class="inner-tr" data-ticker="CRO" data-name="Crypto.org - CRO" data-price data-balance data-value>
+          <td class="inner-td td-rank paw-text">
+            ...
+          </td>
+          <td class="inner-td td-name"><img src="images/tokens/cro.png" alt="img">
+            <p class="paw-text tooltip"></p>
           </td>
           <td class="inner-td td-price">
-            <p class="phat-ass-white-text">$0.17</p>
+            <p class="paw-text">...</p>
           </td>
           <td class="inner-td td-balance">
-            <p class="phat-ass-white-text">100</p>
+            <p class="paw-text">...</p>
           </td>
           <td class="inner-td td-value">
-            <p class="phat-ass-white-text">$17.23</p>
+            <p class="paw-text">...</p>
           </td>
         </tr>
-        <tr class="inner-tr">
-          <td class="inner-td"><img class=" no-js-iov" src="https://app.osmosis.zone/public/assets/tokens/iov.png" alt="img">
-            <p class="phat-ass-white-text">Starname - IOV</p>
+        <tr class="inner-tr" data-ticker="IOV" data-name="Starname - IOV" data-price data-balance data-value>
+          <td class="inner-td td-rank paw-text">
+            ...
+          </td>
+          <td class="inner-td td-name"><img src="images/tokens/iov.png" alt="img">
+            <p class="paw-text tooltip"></p>
           </td>
           <td class="inner-td td-price">
-            <p class="phat-ass-white-text">$0.10</p>
+            <p class="paw-text">...</p>
           </td>
           <td class="inner-td td-balance">
-            <p class="phat-ass-white-text">3000</p>
+            <p class="paw-text">...</p>
           </td>
           <td class="inner-td td-value">
-            <p class="phat-ass-white-text">$300.00</p>
+            <p class="paw-text">...</p>
           </td>
         </tr>
-        <tr class="inner-tr">
-          <td class="inner-td"><img class=" no-js-ngm" src="https://app.osmosis.zone/public/assets/tokens/ngm.png" alt="img">
-            <p class="phat-ass-white-text">e-Money - NGM</p>
+        <tr class="inner-tr" data-ticker="NGM" data-name="e-Money - NGM" data-price data-balance data-value>
+          <td class="inner-td td-rank paw-text">
+            ...
+          </td>
+          <td class="inner-td td-name"><img src="images/tokens/ngm.png" alt="img">
+            <p class="paw-text tooltip"></p>
           </td>
           <td class="inner-td td-price">
-            <p class="phat-ass-white-text">$0.50</p>
+            <p class="paw-text">...</p>
           </td>
           <td class="inner-td td-balance">
-            <p class="phat-ass-white-text">10</p>
+            <p class="paw-text">...</p>
           </td>
           <td class="inner-td td-value">
-            <p class="phat-ass-white-text">$5</p>
+            <p class="paw-text">...</p>
           </td>
         </tr>
-        <tr class="inner-tr">
-          <td class="inner-td"><img class=" no-js-ngm" src="https://app.osmosis.zone/public/assets/tokens/ngm.png" alt="img">
-            <p class="phat-ass-white-text">e-Money - EEUR</p>
+        <tr class="inner-tr" data-ticker="EEUR" data-name="e-Money - EEUR" data-price data-balance data-value>
+          <td class="inner-td td-rank paw-text">
+            ...
+          </td>
+          <td class="inner-td td-name"><img src="images/tokens/ngm.png" alt="img">
+            <p class="paw-text tooltip"></p>
           </td>
           <td class="inner-td td-price">
-            <p class="phat-ass-white-text">$0.85</p>
+            <p class="paw-text">...</p>
           </td>
           <td class="inner-td td-balance">
-            <p class="phat-ass-white-text">1000</p>
+            <p class="paw-text">...</p>
           </td>
           <td class="inner-td td-value">
-            <p class="phat-ass-white-text">$850</p>
+            <p class="paw-text">...</p>
           </td>
         </tr>
       </tbody>
     </table>
+    <div class="last-refreshed tooltip" id="btnRefresh_lastRefreshed"></div>
+
+
   </div>
+  <div id="maskText"></div>
 </body>
 
 </html>
