@@ -403,7 +403,13 @@ td.td-value {
   display: block;
 }
 
-.last-refreshed {
+.status-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.status {
   font-family: Inter, ui-sans-serif, system-ui;
   color: rgba(255, 255, 255, 0.3);
   font-size: 8pt;
@@ -414,7 +420,7 @@ td.td-value {
   margin-right: 5px;
 }
 
-.last-refreshed:hover {
+.status:hover {
   color: rgba(255, 255, 255, 0.5);
   text-decoration: underline;
 }
