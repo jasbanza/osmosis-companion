@@ -1,39 +1,30 @@
-# Osmosis Rewards Countdown (Unofficial)
+# Osmosis Companion
 
-### LP Reward countdown & alerts for https://app.osmosis.zone
-A simple utility to display the time until the next reward distribution at https://app.osmosis.zone/pools
+## A companion utility for https://app.osmosis.zone & https://info.osmosis.zone
 
-- Shows time until the next reward distribution
-- Clicking the icon opens a tab for https://app.osmosis.zone/pools
-- Customizable alarm notification (Coming Soon)
+- ⌚ Shows time until the next reward distribution (Be sure to pin the extension!)
+- 🧪 Assets info: live prices, liquidity & volume from info.osmosis.zone
+- 📊 Portfolio dashboard - One place to see your wallet & LP balances (wen? #soon). 
+- 🔔 Customizable price alerts (wen? #soon)
 
-***Please note that this is made as a utility by a community member, and not an official Osmosis product.***
+### What's new?
+v0.2.2: 
+
+- ✅ Dynamic assets list - when a new token is listed, it will appear automatically!
+- ✅ Tooltips for each asset's volume & liquidity. 
+- ✅ Improved interface. (scrollable assets, transition animations, ...)
+
+⭐ If you like this, [please donate to encourage further development](https://app.starname.me/profile/jason)
+
+
+## Roadmap:
+
+- 📌 Reminder / alert notification
+- 📌 Price alerts
+- 📌 Options (configure wallet addresses to watch)
+- 📌 Unclaimed rewards
+- 📌 Portfolio milestones 🎉
+
 
 Disclaimer, Privacy notice & License can be found in the Github repo:
-https://github.com/slimslyde/osmosis-rewards-extension
-
-⭐ If you like this, please consider donating:
-https://app.starname.me/profile/jason
-
-📌 Current Version & Changelog:
-v0.1.1: After distribution added a delay of 10 minutes before calling API again.
-
-=========
-
-Roadmap:
-
-📌 v0.2.0: 
-  - reminder / alert notification
-  - unclaimed rewards
-  - options
-  - add popup
-  - donation link
-
-📌 v0.3.0:
-  - Show all osmosis token prices
-
-📌 v0.4.0:
-  - Balances (wallets)
-  
-📌 v0.5.0:
-  - price alerts
+[https://github.com/slimslyde/osmosis-companion](https://github.com/slimslyde/osmosis-companion)
