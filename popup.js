@@ -50,7 +50,7 @@ function refresh_tokens_if_old() {
   // get tokens from local storage
   ls_get_tokens((res) => {
     // check if there is data already
-    var dataNotRendered = (document.querySelector("[data-price]").dataset.price == '');
+    var dataNotRendered = (!document.querySelector("#assets_tbody tr"));
     // render if local storage is younger than 5 minutes
     if (res.tokens && res.tokens.data && res.tokens.data.length > 0 && res.tokens.timestamp && (Date.now() - res.tokens.timestamp) < 300000) {
       if (dataNotRendered) {
@@ -90,27 +90,55 @@ function force_refresh_tokens() {
 
 
 function render_tokens(tokens) {
+  // sort default by liquidity
   tokens.sort((a, b) =>
     (parseFloat(a.liquidity) < parseFloat(b.liquidity)) ? 1 : -1
   );
 
+  // remove previously rendered table's DOM
+  var assets_tbody = document.getElementById("assets_tbody");
+  assets_tbody.innerHTML = "";
+
+  // get HTML template for table row (for each asset)
+  var template_asset_tr = document.getElementById("template_asset_tr");
+
+  // iterate tokens object for dynamically creating each row
   tokens.forEach((token, i) => {
-    // find row for token
-    // TODO: dont look for row, make a new one dynamically...
-    var row = document.querySelector("[data-ticker='" + token.symbol + "']");
-    if (row) {
-      //  if found, set values
-      var price = parseFloat((Math.round((token.price + Number.EPSILON) * 100) / 100).toFixed(2));
-      row.querySelector(".td-price p").innerHTML = "$" + price.toLocaleString('en-US');
-      row.querySelector(".td-name p").innerHTML = token.name + " <span class='ticker'>" + token.symbol + "</span><span class='tooltiptext tooltip-bottom-left'>Go to https://info.osmosis.zone/token/" + token.symbol + "</span>";
-      // <span class="tooltiptext tooltip-right">https://info.osmosis.zone/token/OSMO</span>
-      row.querySelector(".td-rank").innerHTML = "<span class='rank'>" + (i + 1) + "</span>";
-      // set dataset attribute for price:
-      row.dataset.rank = (i + 1);
-      row.dataset.price = price;
-      row.dataset.name = token.name;
-      row.dataset.liquidity = token.liquidity;
-    }
+    // create row for token from template
+    var rowFragment = template_asset_tr.content.cloneNode(true);
+
+    //  set values
+    var price = parseFloat((Math.round((token.price + Number.EPSILON) * 1000) / 1000).toFixed(2)); //parseFloat(price);
+    // console.log(price);
+    // var pricePretty = price.toFixed(2);
+    rowFragment.querySelector(".td-price p").innerHTML = "$" + price.toLocaleString('en-US');
+
+    //tooltips:
+
+    var tooltip = "<div class='tooltiptext tooltip-asset'><div class='info'><div class='liquidity'><span class='title'>Liquidity</span>$" + token.liquidity.toLocaleString('en-US') + "</div><div class='volume'><span class='title'>24h Volume</span>$" + token.volume_24h.toLocaleString('en-US') + "</div><div class='link'>Click to go to: https://info.osmosis.zone/token/" + token.symbol + "</div></div></div>";
+    rowFragment.querySelector(".td-name p").innerHTML = token.name + " <span class='ticker'>" + token.symbol + "</span>" + tooltip;
+    //tooltips:
+
+    rowFragment.querySelector(".td-rank").innerHTML = "<span class='rank'>" + (i + 1) + "</span>";
+    rowFragment.querySelector("img").src = "https://info.osmosis.zone/assets/" + token.symbol.toLowerCase() + ".png";
+
+    // add row to table body
+    assets_tbody.appendChild(rowFragment);
+    var row = document.querySelector("#assets_tbody .inner-tr:last-child");
+    // set dataset attribute for price:
+    row.dataset.rank = (i + 1);
+    row.dataset.ticker = token.symbol;
+    row.dataset.name = token.name;
+    row.dataset.price = token.price;
+    row.dataset.liquidity = token.liquidity;
+    row.dataset.volume_24h = token.volume_24h;
+  });
+
+  // external links for assets
+  document.querySelectorAll("#assets_tbody .inner-tr").forEach((tr, i) => {
+    tr.querySelector(".td-name p").addEventListener("click", () => {
+      window.open("https://info.osmosis.zone/token/" + tr.dataset.ticker);
+    });
   });
 }
 
@@ -145,7 +173,6 @@ function updateLastRefreshed(seconds) {
 }
 
 // Sorting:
-
 function btnSort_onClick(el) {
   var sortInfo = update_sortButtons(el);
   sort_tokens(sortInfo);
@@ -188,18 +215,15 @@ function sort_tokens(options = {
 
 }
 
+/**
+ * helper function for sorting
+ */
 function compareFields(a, b, options) {
   // a.dataset[options.sortBy].toLowerCase() > b.dataset[options.sortBy].toLowerCase()
   var compareA, compareB;
   switch (options.sortBy) {
     case "rank":
-      compareA = parseInt(a.dataset[options.sortBy]);
-      compareB = parseInt(b.dataset[options.sortBy]);
-      break;
     case "liquidity":
-      compareA = parseFloat(a.dataset[options.sortBy]);
-      compareB = parseFloat(b.dataset[options.sortBy]);
-      break;
     case 'price':
       compareA = parseFloat(a.dataset[options.sortBy]);
       compareB = parseFloat(b.dataset[options.sortBy]);
@@ -264,16 +288,6 @@ document.addEventListener('DOMContentLoaded', function() {
       btnSort_onClick(button);
     });
   });
-
-  // external links for assets
-  document.querySelectorAll("[data-ticker]").forEach((tr, i) => {
-    var token = tr.dataset.ticker;
-    tr.querySelector(".td-name p").addEventListener("click", () => {
-      window.open("https://info.osmosis.zone/token/" + token);
-    });
-  });
-
-
 
   refresh_tokens_if_old();
   window.setInterval(refresh_tokens_if_old, 10000);

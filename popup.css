@@ -37,6 +37,7 @@ pre {
 }
 
 table {
+  width: 495px;
   border-collapse: collapse;
   text-indent: 0;
   border-color: inherit;
@@ -73,6 +74,10 @@ table {
   cursor: pointer;
 }
 
+.table-header td:last-child {
+  margin-right: 3px;
+}
+
 td,
 p {
   background-color: transparent;
@@ -100,7 +105,7 @@ p {
 
 .inner-tr:last-child {
   border-bottom-left-radius: 1rem;
-  border-bottom-right-radius: 1rem;
+  /* border-bottom-right-radius: 1rem; */
 }
 
 .inner-td {
@@ -292,9 +297,14 @@ td.td-value {
 }
 
 /* TOOLTIP */
+.tooltip {
+  /* position: relative; */
+}
+
 /* Tooltip text */
 .tooltip .tooltiptext {
-  visibility: hidden;
+  /* visibility: hidden; */
+  transition: opacity 400ms;
   background-color: #564f81;
   border: 1px solid #c7c7c7;
   color: #c7c7c7;
@@ -306,7 +316,59 @@ td.td-value {
   position: absolute;
   top: 45px;
   z-index: 1;
-  opacity: 0.95;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* The asset tooltip */
+.tooltip:hover .tooltiptext.tooltip-asset {
+  transform: translateY(85px);
+  opacity: 1;
+}
+
+.tooltip .tooltiptext.tooltip-asset {
+  transition: transform 150ms, opacity 400ms;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+  background-color: transparent;
+  border-color: transparent;
+  opacity: 0;
+  top: -85px;
+  left: 0px;
+  width: 100%;
+}
+
+.tooltip-asset .info {
+  background-color: #342d4d;
+  padding: 10px;
+  margin: 0px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.tooltip-asset .info .liquidity, .tooltip-asset .info .volume {
+  margin: 3px 3px 0 3px;
+  background-color: #4d4763;
+  border-radius: 3px;
+  padding: 3px;
+  color: rgba(255, 255, 255, 0.45);
+  font-weight: 400;
+  font-size: 8pt;
+}
+
+.tooltip-asset .info .liquidity .title, .tooltip-asset .info .volume .title {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.87);
+  margin-right: 4px;
+}
+
+.tooltip-asset .link {
+  margin-top: 5px;
+  font-size: 7pt;
+  color: rgba(255, 255, 255, 0.45);
 }
 
 .tooltip-right {
@@ -331,7 +393,8 @@ td.td-value {
 
 /* Show the tooltip text when you mouse over the tooltip container */
 .tooltip:hover .tooltiptext {
-  visibility: visible;
+  /* visibility: visible; */
+  opacity: 0.95;
 }
 
 /* Table column sorting */
@@ -379,6 +442,28 @@ td.td-value {
 
 .sort-button.ascending:not(.after)::before, .sort-button.ascending.after::after {
   content: '⬆';
+}
+
+/* scrollable table: */
+#assets_tbody {
+  display: block;
+  max-height: 450px;
+  overflow-y: scroll;
+}
+
+#assets_tbody::-webkit-scrollbar {
+  width: 3px;
+}
+
+#assets_tbody::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 2px;
+}
+
+#assets_tbody::-webkit-scrollbar-thumb {
+  background-color: rgba(45, 39, 85, 0.95);
+  outline: 1px solid rgb(45, 39, 85);
+  border-radius: 2px;
 }
 
 /* Masking */
