@@ -25,6 +25,5 @@
   "permissions": [
     "storage",
     "alarms"
-  ],
-  "options_page": "options.html"
+  ]
 }
