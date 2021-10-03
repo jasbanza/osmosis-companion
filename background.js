@@ -70,7 +70,7 @@ function updateCountdownDisplay(epoch_end_unix) {
     });
     // refresh tooltip text
     chrome.action.setTitle({
-      title: "Osmosis Rewards Countdown (Unofficial)\n\nNext $OSMO rewards in:\n" + prettyPrint + "\n\n\nClick to go to https://app.osmosis.zone/pools\n\n"
+      title: "Osmosis Companion (Unofficial)\n\nNext $OSMO rewards in:\n" + prettyPrint + "\n\n\nClick here for science!\n\n"
     });
 
   } else {
@@ -82,7 +82,7 @@ function updateCountdownDisplay(epoch_end_unix) {
     if (totSecs > -600) {
 
       chrome.action.setTitle({
-        title: "Osmosis Rewards Countdown (Unofficial)\n\nClaim your rewards now!\n\nClick to go to https://app.osmosis.zone/pools\n\n\nGetting next epoch from API in " + Math.floor((600 + totSecs)/60) + " minutes...\n\n"
+        title: "Osmosis Companion (Unofficial)\n\nClaim your rewards now!\n\nClick here for science!\n\n\nGetting next epoch from API in " + Math.floor((600 + totSecs)/60) + " minutes...\n\n"
       });
 
     } else {
