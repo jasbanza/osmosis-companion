@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <script type="text/javascript" src="popup.js"></script>
+  <script type="text/javascript" src="osmo.js"></script>
   <link rel="stylesheet" href="popup.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;600;700&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap">
@@ -15,7 +16,7 @@
     <div class="toolbar">
       <!-- github readme -->
       <div class="toolbar-section toolbar-item tooltip toolbar-a">
-        <a href="https://github.com/slimslyde/osmosis-companion#readme" target="_blank">Osmosis Companion <div style="font-size:6pt">version 0.2.2</div>
+        <a href="https://github.com/slimslyde/osmosis-companion#readme" target="_blank">Osmosis Companion <div style="font-size:6pt">version 0.3.0</div>
         </a>
         <span class="tooltiptext tooltip-left">Visit GitHub</span>
       </div>
@@ -28,9 +29,9 @@
       <!-- menu  -->
       <div class="toolbar-section">
         <div class="toolbar-item toolbar-icon tooltip" id="btnRefresh">↻<span class="tooltiptext tooltip-right">Force refresh</span></div>
-        <div class="toolbar-item toolbar-icon tooltip masked">🗯<span class="tooltiptext tooltip-right">Alerts (wen? #soon)</span></div>
-        <div class="toolbar-item toolbar-icon tooltip masked">✉<span class="tooltiptext tooltip-right">Notifications (wen? #soon)</span></div>
-        <div class="toolbar-item toolbar-icon tooltip masked">⚙<span class="tooltiptext tooltip-right">Settings (wen? #soon)</span></div>
+        <div class="toolbar-item toolbar-icon tooltip masked">🗯<span class="tooltiptext tooltip-right">Alerts</span></div>
+        <div class="toolbar-item toolbar-icon tooltip masked">✉<span class="tooltiptext tooltip-right">Notifications</span></div>
+        <div class="toolbar-item toolbar-icon tooltip masked">⚙<span class="tooltiptext tooltip-right">Settings</span></div>
       </div>
     </div>
   </div>
@@ -52,12 +53,12 @@
         <tr class="table-header">
           <td class="inner-td td-rank">
             <p class="table-header-text">
-              <div class="sort-button after" data-sort="rank">#</div>
+              <div class="sort-button after hover-ascending default-ascending" data-sort="rank">#</div>
             </p>
           </td>
           <td class="inner-td td-name">
             <p class="table-header-text">
-              <div class="sort-button after" data-sort="name">Asset / Chain</div>
+              <div class="sort-button after hover-ascending default-ascending" data-sort="name">Asset / Chain</div>
             </p>
           </td>
           <td class="inner-td td-price">
@@ -82,7 +83,7 @@
 
     <!-- template for rows -->
     <template id="template_asset_tr">
-      <tr class="inner-tr" data-rank="rank" data-ticker="symbol" data-name="name" data-price="price" data-liquidity="liq" data-volume_24h="vol" data-balance="bal" data-value="val">
+      <tr class="inner-tr" data-rank="rank" data-ticker="symbol" data-name="name" data-price="0" data-liquidity="0" data-volume_24h="0" data-balance="0" data-value="0">
         <td class="inner-td td-rank paw-text">
           ...
         </td>
@@ -106,7 +107,10 @@
       <div class="status tooltip" id="btnRefresh_lastRefreshed"></div>
     </div>
   </div>
-  <div id="maskText"></div>
+  <div id="mask">
+    <span></span>
+    <progress value="0" max="100">0%</progress>
+  </div>
 </body>
 
 </html>
