@@ -134,7 +134,7 @@ async function async_refreshAssets(forceRefresh = false) {
       maskElement(document.getElementById("btnRefresh"));
       maskElement(document.getElementById("tab_myAssets"), "Fetching wallet balances...", 70);
       // fetch wallet balances
-      return osmo.wallet.balances("osmo1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+      return osmo.wallet.balances("osmo1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     })
     .then((res) => {
       raw_balances = res.result;
@@ -185,7 +185,8 @@ async function async_refreshAssets(forceRefresh = false) {
       console.table(arrWalletBalances);
       console.log('%c Rendering balances...', 'background-color:#848;color:#fff');
       render_wallet_balances(arrWalletBalances);
-
+      // Sort tokens
+      sort_tokens(getCurrentSortOptions());
     }).then(() => {
       // unmask
       unmaskElement(document.getElementById("btnRefresh"));
@@ -322,7 +323,7 @@ function getCurrentSortOptions() {
  */
 function sort_tokens(options = {
   sortBy: "name",
-  order: "descending"
+  sortOrder: "descending"
 }) {
   var rows = document.getElementById("assets_tbody");
   [...rows.children]
@@ -355,7 +356,7 @@ function compareFields(a, b, options) {
     default:
       break;
   }
-  if (options.order == "descending") {
+  if (options.sortOrder == "descending") {
     return (compareA < compareB) ? 1 : -1;
   }
   return (compareA > compareB) ? 1 : -1;
@@ -381,7 +382,7 @@ function update_sortButtons(el) {
   el.classList.add(newSortOrder);
   return {
     sortBy: sortBy,
-    order: newSortOrder
+    sortOrder: newSortOrder
   };
 }
 
