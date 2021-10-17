@@ -134,7 +134,7 @@ async function async_refreshAssets(forceRefresh = false) {
       maskElement(document.getElementById("btnRefresh"));
       maskElement(document.getElementById("tab_myAssets"), "Fetching wallet balances...", 70);
       // fetch wallet balances
-      return osmo.wallet.balances("osmo1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+      return osmo.wallet.balances("osmoxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     })
     .then((res) => {
       raw_balances = res.result;
@@ -300,7 +300,7 @@ function btnSort_onClick(el) {
 function getCurrentSortOptions() {
   var options = {};
   var sortBy = "rank";
-  var sortOrder = "descending";
+  var sortOrder = "ascending";
   document.querySelectorAll(".sort-button").forEach((sortButton, i) => {
     if (sortButton.classList.contains("ascending")) {
       sortBy = sortButton.dataset.sort;
