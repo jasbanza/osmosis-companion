@@ -78,11 +78,11 @@ var DELAY = 1;
         text: "dist..."
       });
 
-      // only call API again after ~15 minutes, as it seems to be delayed during rewards...
-      if (totSecs > -900) {
+      // only call API again after ~20 minutes, as it seems to be delayed during rewards...
+      if (totSecs > -1200) {
 
         chrome.action.setTitle({
-          title: "Osmosis Companion (Unofficial)\n\nClaim your rewards now!\n\nClick here for science!\n\n\nGetting next epoch from API in " + Math.floor((600 + totSecs) / 60) + " minutes...\n\n"
+          title: "Osmosis Companion (Unofficial)\n\nClaim your rewards now!\n\nClick here for science!\n\n\nGetting next epoch from API in " + Math.floor((1200 + totSecs) / 60) + " minutes...\n\n"
         });
 
       } else {

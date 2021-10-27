@@ -6,99 +6,67 @@ function tabPools_onclick() {
 
 }
 
-function fetch_tokens() {
-  return fetch("https://api-osmosis.imperator.co/tokens/v1/all", {
-    "headers": {
-      "accept": "application/json, text/plain, */*",
-      "accept-language": "en-US,en;q=0.9",
-      "sec-fetch-dest": "empty",
-      "sec-fetch-mode": "cors",
-      "sec-fetch-site": "cross-site",
-      "sec-gpc": "1"
-    },
-    "referrer": "https://info.osmosis.zone/",
-    "referrerPolicy": "strict-origin-when-cross-origin",
-    "body": null,
-    "method": "GET",
-    "mode": "cors",
-    "credentials": "omit"
-  });
-}
-
-// gets tokens data from local storage and passes to callback
-function ls_get_tokens(cb) {
-  chrome.storage.local.get("tokens", cb);
-}
-
-// save tokens data in local storage
-function ls_set_tokens(tokens) {
-  chrome.storage.local.set({
-    "tokens": {
-      "data": tokens,
-      "timestamp": Date.now()
-    }
-  });
-}
-
-// gets assetlist data from local storage and passes to callback
-function ls_get_assetlist(cb) {
-  chrome.storage.local.get("assetlist", cb);
-}
-
-// save assetlist data in local storage
-function ls_set_assetlist(assetlist) {
-  chrome.storage.local.set({
-    "assetlist": {
-      "data": assetlist,
-      "timestamp": Date.now()
-    }
-  });
-}
 
 
 function btnRefresh_onClick() {
-  // TODO: replace with companion.js functions
-  async_refreshAssets();
-
+  force_refresh_tokens();
 }
 
-// gets prices from local storage. If older than 5 minutes, reload from external source
-function refresh_tokens_if_old() {
-  // get tokens from local storage
-  ls_get_tokens((res) => {
-    // check if there is data already
-    var dataNotRendered = (!document.querySelector("#assets_tbody tr"));
-    // render if local storage is younger than 5 minutes
-    if (res.tokens && res.tokens.data && res.tokens.data.length > 0 && res.tokens.timestamp && (Date.now() - res.tokens.timestamp) < 300000) {
-      if (dataNotRendered) {
-        render_tokens(res.tokens.data);
-        sort_tokens(getCurrentSortOptions());
-      }
-      // update "last refreshed"
-      updateLastRefreshed(Math.round((Date.now() - res.tokens.timestamp) / 1000));
-    } else {
-      // local storage empty, so get tokens from API
-      force_refresh_tokens(); // old
-    }
-  });
+// check if tokens are older than 5 minutes, then
+function refresh_assets_if_old() {
+  // cancel timeout
+  window.clearTimeout(window.refresh_timeout);
 
+  var is_tokens_old = false;
+  var is_assetlist_old = false;
+  var is_wallet_old = false;
+
+  // call once to check current values
+  companion.assets.get()
+    .then((res_orig) => {
+      // check if any of the asset objects need to be refreshed
+      // is token prices older than 5 minutes?
+      is_tokens_old = !(res_orig.tokens && res_orig.tokens.timestamp && (Date.now() - res_orig.tokens.timestamp) < 300000);
+      // is assetlist older than 6 hours?
+      is_assetlist_old = !(res_orig.assetlist && res_orig.assetlist.timestamp && (Date.now() - res_orig.assetlist.timestamp) < 21600000);
+      // is wallet data older than 30 seconds?
+      is_wallet_old = !(res_orig.wallet && res_orig.wallet.timestamp && (Date.now() - res_orig.wallet.timestamp) < 15000);
+
+      if (is_tokens_old || is_assetlist_old || is_wallet_old) {
+        companion.assets.get({
+          refresh_tokens: is_tokens_old,
+          refresh_assetlist: is_assetlist_old,
+          refresh_wallet: is_wallet_old
+        }).then((res_new) => {
+          updateLastRefreshed(Math.round((Date.now() - res_orig.tokens.timestamp) / 1000));
+          render_assets(res_new);
+        });
+      } else {
+        updateLastRefreshed(Math.round((Date.now() - res_orig.tokens.timestamp) / 1000));
+      }
+
+      // tick
+      window.refresh_timeout = window.setTimeout(refresh_assets_if_old, 1000);
+    });
 }
 
 function force_refresh_tokens() {
-
-  console.log('%c Fetching prices...', 'background-color:#080;color:#fff');
+  // cancel timeout
+  window.clearTimeout(window.refresh_timeout);
   // show loading masks
   maskElement(document.getElementById("btnRefresh"));
   maskElement(document.getElementById("tab_myAssets"), "Fetching prices...", 40);
   // get token info from external API...
-  return fetch_tokens()
-    .then((response) => response.json())
-    .then((data) => {
+  return companion.assets.get({
+      refresh_tokens: true,
+      refresh_wallet: true,
+      refresh_assetlist: true /*'only_when_denoms_missing'*/
+    })
+    .then((assets) => {
       console.log('%c Rendering prices...', 'background-color:#848;color:#fff');
       // UI
-      render_tokens(data);
-      // local storage
-      ls_set_tokens(data);
+      // render_tokens(assets.tokens.data);
+      render_assets(assets);
       // order of rows of table
       sort_tokens(getCurrentSortOptions());
       // set "last refreshed..."
@@ -106,20 +74,15 @@ function force_refresh_tokens() {
       // remove loading masks
       unmaskElement(document.getElementById("btnRefresh"));
       unmaskElement(document.getElementById("tab_myAssets"));
+    })
+    .finally(() => {
+      // restart timer
+      window.refresh_timeout = window.setTimeout(refresh_assets_if_old, 1000);
     });
 }
 
-async function async_refreshAssets_if_old() {
-  refresh_tokens();
-}
 
-async function refresh_tokens(refreshIfOlderThanSeconds) {
 
-}
-
-async function refresh_assetlist(refreshIfOlderThanSeconds = 28800 /*default 8hrs*/ ) {
-
-}
 
 async function async_refreshAssets(forceRefresh = false) {
   var raw_balances = {};
@@ -134,7 +97,7 @@ async function async_refreshAssets(forceRefresh = false) {
       maskElement(document.getElementById("btnRefresh"));
       maskElement(document.getElementById("tab_myAssets"), "Fetching wallet balances...", 70);
       // fetch wallet balances
-      return osmo.wallet.balances("osmoxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+      return osmo.wallet.balances("TODO wallet address");
     })
     .then((res) => {
       raw_balances = res.result;
@@ -261,6 +224,59 @@ function render_tokens(arrTokens) {
   });
 }
 
+
+function render_assets(assets) {
+  maskElement(document.getElementById("tab_myAssets"), "Rendering assets...", 90);
+  render_tokens(assets.tokens.data);
+  var raw_balances = assets.wallet.data;
+  var assetlist = assets.assetlist.data.assets;
+  var arrWalletBalances = [];
+  // loop user wallet assets, lookup the denoms against the assetlist, and get corresponding asset symbols
+  var isAssetFoundInAssetlist = false; // used to check if asset is found in assetlist. if not, then update assetlist
+  raw_balances.forEach((balance, i) => {
+    isAssetFoundInAssetlist = false; // reset flag
+    // dont bother with gamm tokens
+    if (balance.denom.indexOf("gamm/pool/") == -1) {
+      assetlist.forEach((asset, i) => {
+        if (balance.denom == asset.base) {
+          isAssetFoundInAssetlist = true;
+          console.log('%c Found asset!', 'background-color:#088;color:#fff');
+          console.log(asset.symbol);
+          // get exponent (for decimal point)
+          let exponent = 1;
+          asset.denom_units.forEach((denom_unit, i) => {
+            if (denom_unit.denom.toLowerCase() == asset.symbol.toLowerCase()) {
+              exponent = denom_unit.exponent;
+            }
+          });
+          // build wallet balances
+          arrWalletBalances.push({
+            "symbol": asset.symbol,
+            "amount": balance.amount / (10 ** exponent)
+          });
+          console.log(balance.amount);
+          console.log((10 ** exponent));
+          console.log(balance.amount / (10 ** exponent));
+        }
+      });
+      if (!isAssetFoundInAssetlist) {
+
+      }
+    }
+  });
+  render_wallet_balances(arrWalletBalances);
+  // Sort tokens
+  sort_tokens(getCurrentSortOptions());
+  // unmask
+  unmaskElement(document.getElementById("btnRefresh"));
+  unmaskElement(document.getElementById("tab_myAssets"));
+
+}
+
+
+
+
+
 function updateLastRefreshed(seconds) {
   var seconds_remaining = 300 - seconds;
 
@@ -331,7 +347,6 @@ function sort_tokens(options = {
       compareFields(a, b, options)
     )
     .forEach(node => rows.appendChild(node));
-
 }
 
 /**
@@ -422,7 +437,6 @@ function unmaskElement(el) {
   document.getElementById("mask").classList.remove("show-mask");
 }
 
-
 document.addEventListener('DOMContentLoaded', function() {
   // refresh button
   document.getElementById("btnRefresh").addEventListener("click", btnRefresh_onClick);
@@ -436,7 +450,14 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  refresh_tokens_if_old();
-  window.setInterval(refresh_tokens_if_old, 1000);
+  companion.assets.wallet.address.ls.set("osmo1vwrruj48vk8q49a7g8z08284wlvm9s6el6c7ej");
+  refresh_assets_if_old();
+  window.refresh_timeout = window.setTimeout(refresh_assets_if_old, 1000);
 
 });
+
+window.onload = function() {
+  refresh_assets_if_old();
+}
+
+// TODO: make sure calls arent repeated if promises aren't resolved yet!
