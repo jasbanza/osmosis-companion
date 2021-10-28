@@ -34,9 +34,9 @@ var DELAY = 1;
 
 
   function gotEpochFromStorage_callback(result) {
-    console.log('gotEpochFromStorage_callback(result)');
-    console.log('result:');
-    console.log(result);
+    //// console.log('gotEpochFromStorage_callback(result)');
+    //// console.log('result:');
+    //// console.log(result);
     let epoch_end_unix = result.epoch_end_unix;
 
     // if it is in storage, then proceed to handle it with updateTimeDisplay...
@@ -62,7 +62,7 @@ var DELAY = 1;
 
     if (totSecs > 0) {
       // update badge
-      console.log("refreshing countdown badge text");
+      //// console.log("refreshing countdown badge text");
 
       // refresh badge text
       chrome.action.setBadgeText({

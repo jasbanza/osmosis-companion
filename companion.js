@@ -62,7 +62,8 @@ companion = {
       refresh_wallet: false,
       refresh_tokens: false,
       refresh_assetlist: false
-    }) {}
+    }) {},
+    last_updated: async function() {}
   },
   ui: {
     render_assets: async function(assets = null) {},
@@ -80,6 +81,7 @@ companion.assets.tokens.ls.get = async function(refreshIfOlderThanSeconds = null
 companion.assets.tokens.ls.set = async function(tokens) {
   chrome.storage.local.set({
     "tokens": {
+      "is": "tokens",
       "data": tokens,
       "timestamp": Date.now()
     }
@@ -122,6 +124,14 @@ companion.assets.tokens.get = async function(options = {
   return companion.assets.tokens.ls.get();
 };
 
+companion.assets.tokens.ls.last_updated = function() {
+  let ret = false;
+  companion.assets.tokens.ls.get()
+    .then((res) => {
+      ret = res.tokens.timestamp;
+    });
+  return ret;
+}
 
 
 
@@ -133,6 +143,7 @@ companion.assets.assetlist.ls.get = async function() {
 companion.assets.assetlist.ls.set = async function(assetlist) {
   chrome.storage.local.set({
     "assetlist": {
+      "is": "assetlist",
       "data": assetlist,
       "timestamp": Date.now()
     }
@@ -170,6 +181,7 @@ companion.assets.wallet.ls.get = async function() {
 companion.assets.wallet.ls.set = async function(wallet) {
   chrome.storage.local.set({
     "wallet": {
+      "is": "wallet",
       "data": wallet,
       "timestamp": Date.now()
     }
@@ -190,6 +202,7 @@ companion.assets.wallet.address.ls.get = async function() {
 companion.assets.wallet.address.ls.set = async function(address) {
   chrome.storage.local.set({
     "wallet.address": {
+      "is": "wallet.address",
       "data": address,
       "timestamp": Date.now()
     }
@@ -252,6 +265,28 @@ companion.assets.get = async function(options = {
     });
 };
 
+companion.assets.last_updated = async function() {
+  var unix_now = Date.now();
+
+  const promise_tokens = companion.assets.tokens.ls.get();
+
+  const promise_assetlist = companion.assets.assetlist.ls.get();
+
+  const promise_wallet = companion.assets.wallet.ls.get();
+
+  var age = {};
+  return Promise.all([promise_assetlist, promise_tokens, promise_wallet])
+    .then((values) => {
+      values.forEach((ls, i) => {
+        age.tokens = (ls.tokens) ? unix_now - ls.tokens.timestamp : age.tokens;
+        age.assetlist = (ls.assetlist) ? unix_now - ls.assetlist.timestamp : age.assetlist;
+        age.wallet = (ls.wallet) ? unix_now - ls.wallet.timestamp : age.wallet;
+      });
+      return age;
+    });
+};
+
+// REVIEW: is this necessary
 companion.ui.render_assets = async function(forceRefresh = false) {
   refresh_tokens();
 };

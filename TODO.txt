@@ -1,0 +1,4 @@
+
+- reestablish loading masks?
+- Better refresh system - data age pie?
+- wallet in options page

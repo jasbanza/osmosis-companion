@@ -20,33 +20,39 @@ function refresh_assets_if_old() {
   var is_tokens_old = false;
   var is_assetlist_old = false;
   var is_wallet_old = false;
+  var assets = {};
 
   // call once to check current values
   companion.assets.get()
-    .then((res_orig) => {
+    .then((assets_orig) => {
       // check if any of the asset objects need to be refreshed
       // is token prices older than 5 minutes?
-      is_tokens_old = !(res_orig.tokens && res_orig.tokens.timestamp && (Date.now() - res_orig.tokens.timestamp) < 300000);
+      is_tokens_old = !(assets_orig.tokens && assets_orig.tokens.timestamp && (Date.now() - assets_orig.tokens.timestamp) < 300000);
       // is assetlist older than 6 hours?
-      is_assetlist_old = !(res_orig.assetlist && res_orig.assetlist.timestamp && (Date.now() - res_orig.assetlist.timestamp) < 21600000);
+      is_assetlist_old = !(assets_orig.assetlist && assets_orig.assetlist.timestamp && (Date.now() - assets_orig.assetlist.timestamp) < 21600000);
       // is wallet data older than 30 seconds?
-      is_wallet_old = !(res_orig.wallet && res_orig.wallet.timestamp && (Date.now() - res_orig.wallet.timestamp) < 15000);
+      is_wallet_old = !(assets_orig.wallet && assets_orig.wallet.timestamp && (Date.now() - assets_orig.wallet.timestamp) < 15000);
 
       if (is_tokens_old || is_assetlist_old || is_wallet_old) {
         companion.assets.get({
           refresh_tokens: is_tokens_old,
           refresh_assetlist: is_assetlist_old,
           refresh_wallet: is_wallet_old
-        }).then((res_new) => {
-          updateLastRefreshed(Math.round((Date.now() - res_orig.tokens.timestamp) / 1000));
-          render_assets(res_new);
+        }).then((assets_new) => {
+          render_assets(assets_new);
+          update_lastRefreshed();
+          // tick
+          window.refresh_timeout = window.setTimeout(refresh_assets_if_old, 1000);
         });
       } else {
-        updateLastRefreshed(Math.round((Date.now() - res_orig.tokens.timestamp) / 1000));
+        if (!is_assets_rendered()) {
+          render_assets(assets_orig);
+        }
+        update_lastRefreshed();
+        // tick
+        window.refresh_timeout = window.setTimeout(refresh_assets_if_old, 1000);
       }
 
-      // tick
-      window.refresh_timeout = window.setTimeout(refresh_assets_if_old, 1000);
     });
 }
 
@@ -55,7 +61,7 @@ function force_refresh_tokens() {
   window.clearTimeout(window.refresh_timeout);
   // show loading masks
   maskElement(document.getElementById("btnRefresh"));
-  maskElement(document.getElementById("tab_myAssets"), "Fetching prices...", 40);
+  maskElement(document.getElementById("tab_myAssets"), "Fetching prices...", 95);
   // get token info from external API...
   return companion.assets.get({
       refresh_tokens: true,
@@ -70,7 +76,7 @@ function force_refresh_tokens() {
       // order of rows of table
       sort_tokens(getCurrentSortOptions());
       // set "last refreshed..."
-      updateLastRefreshed(0);
+      update_lastRefreshed();
       // remove loading masks
       unmaskElement(document.getElementById("btnRefresh"));
       unmaskElement(document.getElementById("tab_myAssets"));
@@ -93,7 +99,7 @@ async function async_refreshAssets(forceRefresh = false) {
   // TODO: progressbar function can be adjusted to add % to it... i.e. 25% for each completed call
   force_refresh_tokens()
     .then(() => {
-      console.log('%c Fetching wallet balances...', 'background-color:#080;color:#fff');
+      ////console.log('%c Fetching wallet balances...', 'background-color:#080;color:#fff');
       maskElement(document.getElementById("btnRefresh"));
       maskElement(document.getElementById("tab_myAssets"), "Fetching wallet balances...", 70);
       // fetch wallet balances
@@ -101,16 +107,16 @@ async function async_refreshAssets(forceRefresh = false) {
     })
     .then((res) => {
       raw_balances = res.result;
-      console.log('%c Wallet balances (raw):', 'background-color:#088;color:#fff');
-      console.table(raw_balances);
-      console.log('%c Fetching Asset List...', 'background-color:#080;color:#fff');
+      ////console.log('%c Wallet balances (raw):', 'background-color:#088;color:#fff');
+      ////console.table(raw_balances);
+      ////console.log('%c Fetching Asset List...', 'background-color:#080;color:#fff');
       // fetch assetlist
       return osmo.assetlist();
     })
     .then((res) => {
       assetlist = res.assets;
-      console.log('%c Asset List:', 'background-color:#088;color:#fff');
-      console.log(assetlist);
+      ////console.log('%c Asset List:', 'background-color:#088;color:#fff');
+      ////console.log(assetlist);
     }).then(() => {
       maskElement(document.getElementById("tab_myAssets"), "Rendering wallet balances...", 90);
       // loop user wallet assets, lookup the denoms against the assetlist, and get corresponding asset symbols
@@ -120,8 +126,8 @@ async function async_refreshAssets(forceRefresh = false) {
         assetlist.forEach((asset, i) => {
           if (balance.denom == asset.base) {
             isAssetFoundInAssetlist = true;
-            console.log('%c Found asset!', 'background-color:#088;color:#fff');
-            console.log(asset.symbol);
+            //// console.log('%c Found asset!', 'background-color:#088;color:#fff');
+            //// console.log(asset.symbol);
             // get exponent (for decimal point)
             let exponent = 1;
             asset.denom_units.forEach((denom_unit, i) => {
@@ -134,9 +140,9 @@ async function async_refreshAssets(forceRefresh = false) {
               "symbol": asset.symbol,
               "amount": balance.amount / (10 ** exponent)
             });
-            console.log(balance.amount);
-            console.log((10 ** exponent));
-            console.log(balance.amount / (10 ** exponent));
+            //// console.log(balance.amount);
+            //// console.log((10 ** exponent));
+            //// console.log(balance.amount / (10 ** exponent));
           }
         });
         if (!isAssetFoundInAssetlist) {
@@ -240,8 +246,8 @@ function render_assets(assets) {
       assetlist.forEach((asset, i) => {
         if (balance.denom == asset.base) {
           isAssetFoundInAssetlist = true;
-          console.log('%c Found asset!', 'background-color:#088;color:#fff');
-          console.log(asset.symbol);
+          //// console.log('%c Found asset!', 'background-color:#088;color:#fff');
+          //// console.log(asset.symbol);
           // get exponent (for decimal point)
           let exponent = 1;
           asset.denom_units.forEach((denom_unit, i) => {
@@ -254,14 +260,11 @@ function render_assets(assets) {
             "symbol": asset.symbol,
             "amount": balance.amount / (10 ** exponent)
           });
-          console.log(balance.amount);
-          console.log((10 ** exponent));
-          console.log(balance.amount / (10 ** exponent));
+          ////console.log(balance.amount);
+          ////console.log((10 ** exponent));
+          ////console.log(balance.amount / (10 ** exponent));
         }
       });
-      if (!isAssetFoundInAssetlist) {
-
-      }
     }
   });
   render_wallet_balances(arrWalletBalances);
@@ -273,11 +276,52 @@ function render_assets(assets) {
 
 }
 
+function is_assets_rendered() {
+  if (document.getElementById("assets_tbody").innerHTML == "") {
+    return false;
+  }
+  return true;
+}
 
+function update_lastRefreshed_tokens(age) {
+  var seconds = Math.floor(age / 1000);
+  var elapsedText = "",
+    em = 0,
+    es = 0;
+  if (seconds / 60 > 1) {
+    em = parseInt(seconds / 60);
+    es = seconds % 60;
+    elapsedText = em + "m " + es + "s";
+  } else {
+    elapsedText = seconds + "s";
+  }
+  document.getElementById("age_tokens").innerHTML = "Prices last refreshed: " + elapsedText + "<span class='tooltiptext tooltip-bottom-right'>Force refresh</span>";
+}
 
+function update_lastRefreshed_wallet(age) {
+  var seconds = Math.floor(age / 1000);
+  var elapsedText = "",
+    em = 0,
+    es = 0;
+  if (seconds / 60 > 1) {
+    em = parseInt(seconds / 60);
+    es = seconds % 60;
+    elapsedText = em + "m " + es + "s";
+  } else {
+    elapsedText = seconds + "s";
+  }
+  document.getElementById("age_wallet").innerHTML = "Wallet last refreshed: " + elapsedText + "<span class='tooltiptext tooltip-bottom-right'>Force refresh</span>";
+}
 
+function update_lastRefreshed() {
+  companion.assets.last_updated()
+    .then((age) => {
+      update_lastRefreshed_tokens(age.tokens);
+      update_lastRefreshed_wallet(age.wallet);
+    });
+}
 
-function updateLastRefreshed(seconds) {
+function updateLastRefreshed_old(seconds) {
   var seconds_remaining = 300 - seconds;
 
   var remainingText = "",
@@ -440,7 +484,8 @@ function unmaskElement(el) {
 document.addEventListener('DOMContentLoaded', function() {
   // refresh button
   document.getElementById("btnRefresh").addEventListener("click", btnRefresh_onClick);
-  document.getElementById("btnRefresh_lastRefreshed").addEventListener("click", btnRefresh_onClick);
+  document.getElementById("age_tokens").addEventListener("click", btnRefresh_onClick);
+  document.getElementById("age_wallet").addEventListener("click", btnRefresh_onClick);
 
   // column sorting
   document.querySelectorAll(".sort-button").forEach((button) => {
@@ -450,14 +495,14 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  companion.assets.wallet.address.ls.set("osmo1vwrruj48vk8q49a7g8z08284wlvm9s6el6c7ej");
-  refresh_assets_if_old();
+  companion.assets.wallet.address.ls.set("YOUR WALLET ADDRESS");
+  refresh_assets_if_old(123);
   window.refresh_timeout = window.setTimeout(refresh_assets_if_old, 1000);
 
 });
-
-window.onload = function() {
-  refresh_assets_if_old();
-}
+//
+// window.onload = function() {
+//   refresh_assets_if_old();
+// }
 
 // TODO: make sure calls arent repeated if promises aren't resolved yet!

@@ -563,12 +563,13 @@ progress::-webkit-progress-value {
 }
 
 .status {
+  width:50%;
   font-family: Inter, ui-sans-serif, system-ui;
   color: rgba(255, 255, 255, 0.3);
   font-size: 8pt;
   line-height: 100%;
   cursor: pointer;
-  text-align: right;
+  text-align: center;
   margin-top: 7px;
   margin-right: 5px;
 }
