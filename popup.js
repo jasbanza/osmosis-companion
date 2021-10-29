@@ -177,9 +177,9 @@ function render_wallet_balances(arrWalletBalances) {
 
 }
 
-function render_tokens(arrTokens) {
+function render_tokens(tokens, assetlist) {
   // sort default by liquidity
-  arrTokens.sort((a, b) =>
+  tokens.sort((a, b) =>
     (parseFloat(a.liquidity) < parseFloat(b.liquidity)) ? 1 : -1
   );
 
@@ -191,7 +191,7 @@ function render_tokens(arrTokens) {
   var template_asset_tr = document.getElementById("template_asset_tr");
 
   // iterate tokens object for dynamically creating each row
-  arrTokens.forEach((token, i) => {
+  tokens.forEach((token, i) => {
     // create row for token from template
     var rowFragment = template_asset_tr.content.cloneNode(true);
 
@@ -210,9 +210,25 @@ function render_tokens(arrTokens) {
     rowFragment.querySelector(".td-rank").innerHTML = "<span class='rank'>" + (i + 1) + "</span>";
     rowFragment.querySelector("img").src = "https://info.osmosis.zone/assets/" + token.symbol.toLowerCase() + ".png";
 
+    // get asset img src from info.osmosis.zone, else get from assetlist
+    var assetlist_src = "";
+    for (var x = 0; x < assetlist.length; x++) {
+      if (assetlist[x].base == token.denom) {
+        if (assetlist[x].logo_URIs.png) {
+          assetlist_src = assetlist[x].logo_URIs.png;
+        } else if (assetlist[x].logo_URIs.svg) {
+          assetlist_src = assetlist[x].logo_URIs.svg;
+        }
+      }
+    }
+
     // add row to table body
     assets_tbody.appendChild(rowFragment);
     var row = document.querySelector("#assets_tbody .inner-tr:last-child");
+    document.querySelector("#assets_tbody .inner-tr:last-child img").onerror = function(e) {
+      this.onerror = img_onerror;
+      this.src = assetlist_src;
+    };
     // set dataset attribute for price:
     row.dataset.rank = (i + 1);
     row.dataset.ticker = token.symbol;
@@ -230,12 +246,18 @@ function render_tokens(arrTokens) {
   });
 }
 
+function img_onerror(e) {
+  this.onerror = null;
+  this.src = 'images/default.png';
+}
 
 function render_assets(assets) {
   maskElement(document.getElementById("tab_myAssets"), "Rendering assets...", 90);
-  render_tokens(assets.tokens.data);
   var raw_balances = assets.wallet.data;
   var assetlist = assets.assetlist.data.assets;
+
+  render_tokens(assets.tokens.data, assetlist);
+
   var arrWalletBalances = [];
   // loop user wallet assets, lookup the denoms against the assetlist, and get corresponding asset symbols
   var isAssetFoundInAssetlist = false; // used to check if asset is found in assetlist. if not, then update assetlist
@@ -495,7 +517,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  companion.assets.wallet.address.ls.set("YOUR WALLET ADDRESS");
+  companion.assets.wallet.address.ls.set("TESTWALLETADDRESS");
   refresh_assets_if_old(123);
   window.refresh_timeout = window.setTimeout(refresh_assets_if_old, 1000);
 
