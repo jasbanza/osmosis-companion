@@ -50,7 +50,7 @@ companion = {
         refresh: false
       }) {},
       address: {
-        ls: {
+        sync: {
           get: async function() {},
           set: async function(address) {}
         }
@@ -195,17 +195,13 @@ companion.assets.wallet.api.get = async function(address) {
 };
 
 
-companion.assets.wallet.address.ls.get = async function() {
-  return await getStorageValuePromise("wallet.address");
+companion.assets.wallet.address.sync.get = async function() {
+  return await getStorageValuePromiseSync("address");
 };
 
-companion.assets.wallet.address.ls.set = async function(address) {
-  chrome.storage.local.set({
-    "wallet.address": {
-      "is": "wallet.address",
-      "data": address,
-      "timestamp": Date.now()
-    }
+companion.assets.wallet.address.sync.set = async function(address) {
+  chrome.storage.sync.set({
+    "address": address
   });
 };
 
@@ -216,11 +212,14 @@ companion.assets.wallet.get = async function(options = {
 
   var address = "";
   // 1) get address
-  await companion.assets.wallet.address.ls.get()
+  await companion.assets.wallet.address.sync.get()
     .then((res) => {
-      address = res["wallet.address"].data;
+      address = res.address;
     });
 
+  if (!address) {
+    return;
+  }
   // 2) refresh from API if necessary
   if (options.refresh == true || (options.refresh)) {
     /* force refresh */
@@ -257,9 +256,17 @@ companion.assets.get = async function(options = {
   return Promise.all([promise_assetlist, promise_tokens, promise_wallet])
     .then((values) => {
       values.forEach((ls, i) => {
-        assets.tokens = (ls.tokens) ? ls.tokens : assets.tokens;
-        assets.assetlist = (ls.assetlist) ? ls.assetlist : assets.assetlist;
-        assets.wallet = (ls.wallet) ? ls.wallet : assets.wallet;
+        if (ls) {
+          if (ls.tokens) {
+            assets.tokens = ls.tokens;
+          }
+          if (ls.assetlist) {
+            assets.assetlist = ls.assetlist;
+          }
+          if (ls.wallet) {
+            assets.wallet = ls.wallet;
+          }
+        }
       });
       return assets;
     });
@@ -278,9 +285,17 @@ companion.assets.last_updated = async function() {
   return Promise.all([promise_assetlist, promise_tokens, promise_wallet])
     .then((values) => {
       values.forEach((ls, i) => {
-        age.tokens = (ls.tokens) ? unix_now - ls.tokens.timestamp : age.tokens;
-        age.assetlist = (ls.assetlist) ? unix_now - ls.assetlist.timestamp : age.assetlist;
-        age.wallet = (ls.wallet) ? unix_now - ls.wallet.timestamp : age.wallet;
+        if (ls) {
+          if (ls.tokens) {
+            age.tokens = unix_now - ls.tokens.timestamp;
+          }
+          if (ls.assetlist) {
+            age.assetlist = unix_now - ls.assetlist.timestamp;
+          }
+          if (ls.wallet) {
+            age.wallet = unix_now - ls.wallet.timestamp;
+          }
+        }
       });
       return age;
     });
@@ -328,9 +343,15 @@ function ls_assetlist_has_all_denoms() {
   return all_accounted_for;
 }
 
-/* Helper function, wrapping the chrome storage API result as a promise's resolve */
+/* Helper function, wrapping the chrome storage API local get result as a promise's resolve */
 function getStorageValuePromise(key) {
   return new Promise((resolve) => {
     chrome.storage.local.get(key, resolve);
+  });
+}
+/* Helper function, wrapping the chrome storage API sync get result as a promise's resolve */
+function getStorageValuePromiseSync(key) {
+  return new Promise((resolve) => {
+    chrome.storage.sync.get(key, resolve);
   });
 }

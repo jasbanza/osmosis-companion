@@ -12,6 +12,10 @@ function btnRefresh_onClick() {
   force_refresh_tokens();
 }
 
+function btnSettings_onClick() {
+  chrome.runtime.openOptionsPage();
+}
+
 // check if tokens are older than 5 minutes, then
 function refresh_assets_if_old() {
   // cancel timeout
@@ -253,7 +257,8 @@ function img_onerror(e) {
 
 function render_assets(assets) {
   maskElement(document.getElementById("tab_myAssets"), "Rendering assets...", 90);
-  var raw_balances = assets.wallet.data;
+  // check if wallet is returned, else keep it blank to avoid error
+  var raw_balances = (assets.wallet && assets.wallet.data) ? assets.wallet.data : [];
   var assetlist = assets.assetlist.data.assets;
 
   render_tokens(assets.tokens.data, assetlist);
@@ -317,22 +322,31 @@ function update_lastRefreshed_tokens(age) {
   } else {
     elapsedText = seconds + "s";
   }
-  document.getElementById("age_tokens").innerHTML = "Prices last refreshed: " + elapsedText + "<span class='tooltiptext tooltip-bottom-right'>Force refresh</span>";
+  document.getElementById("age_tokens").innerHTML = "Prices last refreshed: " + elapsedText + "<span class='tooltiptext tooltip-bottom-right'>Refresh Now</span>";
 }
 
 function update_lastRefreshed_wallet(age) {
-  var seconds = Math.floor(age / 1000);
-  var elapsedText = "",
-    em = 0,
-    es = 0;
-  if (seconds / 60 > 1) {
-    em = parseInt(seconds / 60);
-    es = seconds % 60;
-    elapsedText = em + "m " + es + "s";
+  if (age) {
+    var seconds = Math.floor(age / 1000);
+    var elapsedText = "",
+      em = 0,
+      es = 0;
+    if (seconds / 60 > 1) {
+      em = parseInt(seconds / 60);
+      es = seconds % 60;
+      elapsedText = em + "m " + es + "s";
+    } else {
+      elapsedText = seconds + "s";
+    }
+    document.getElementById("age_wallet").innerHTML = "Wallet last refreshed: " + elapsedText + "<span class='tooltiptext tooltip-bottom-right'>Refresh Now</span>";
+    document.getElementById("age_wallet").classList.remove("hidden");
+    document.getElementById("link_options").classList.add("hidden");
   } else {
-    elapsedText = seconds + "s";
+    document.getElementById("age_wallet").innerHTML = "";
+    document.getElementById("age_wallet").classList.add("hidden");
+    document.getElementById("link_options").classList.remove("hidden");
+
   }
-  document.getElementById("age_wallet").innerHTML = "Wallet last refreshed: " + elapsedText + "<span class='tooltiptext tooltip-bottom-right'>Force refresh</span>";
 }
 
 function update_lastRefreshed() {
@@ -370,7 +384,7 @@ function updateLastRefreshed_old(seconds) {
     remainingText = seconds_remaining + "s";
   }
 
-  document.getElementById("btnRefresh_lastRefreshed").innerHTML = "Refreshing price data in " + remainingText + "<span class='tooltiptext tooltip-bottom-right'>Force refresh</span>";
+  document.getElementById("btnRefresh_lastRefreshed").innerHTML = "Refreshing price data in " + remainingText + "<span class='tooltiptext tooltip-bottom-right'>Refresh Now</span>";
 }
 
 // Sorting:
@@ -506,6 +520,9 @@ function unmaskElement(el) {
 document.addEventListener('DOMContentLoaded', function() {
   // refresh button
   document.getElementById("btnRefresh").addEventListener("click", btnRefresh_onClick);
+  // settings button
+  // document.getElementById("btnSettings").addEventListener("click", btnSettings_onClick);
+
   document.getElementById("age_tokens").addEventListener("click", btnRefresh_onClick);
   document.getElementById("age_wallet").addEventListener("click", btnRefresh_onClick);
 
@@ -517,8 +534,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  companion.assets.wallet.address.ls.set("TESTWALLETADDRESS");
-  refresh_assets_if_old(123);
+  refresh_assets_if_old();
   window.refresh_timeout = window.setTimeout(refresh_assets_if_old, 1000);
 
 });

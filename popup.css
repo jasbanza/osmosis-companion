@@ -217,6 +217,10 @@ td.td-value {
   padding: 2px;
 }
 
+.toolbar-section a {
+  text-decoration: none;
+}
+
 .toolbar-item {
   font-family: Inter, ui-sans-serif, system-ui;
   font-size: 12px;
@@ -558,12 +562,12 @@ progress::-webkit-progress-value {
 
 .status-wrapper {
   display: flex;
-  justify-content: flex-end;
+  /* justify-content: flex-end; */
   align-items: center;
 }
 
 .status {
-  width:50%;
+  width: 50%;
   font-family: Inter, ui-sans-serif, system-ui;
   color: rgba(255, 255, 255, 0.3);
   font-size: 8pt;
@@ -572,6 +576,14 @@ progress::-webkit-progress-value {
   text-align: center;
   margin-top: 7px;
   margin-right: 5px;
+}
+
+.status.hidden {
+  display: none;
+}
+
+.status a {
+  color: #aa0;
 }
 
 .status:hover {

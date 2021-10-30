@@ -4,6 +4,7 @@
 
 - ⌚ Shows time until the next reward distribution (Be sure to pin the extension!)
 - 🧪 Assets info: live prices, liquidity & volume from info.osmosis.zone
+- 💰 Wallet asset balances & USD values (add wallet in settings) 🚨*NEW*🚨
 - 📊 Portfolio dashboard - One place to see your wallet & LP balances (wen? #soon).
 - 🔔 Customizable price alerts
 
@@ -12,9 +13,11 @@
 ### Changelog:
 #### v0.3.0:
 
-- NEW - View wallet asset balances & USD values (save wallet address in settings ⚙)
+- NEW - Wallet asset balances & USD values (save wallet address in settings ⚙)
+- NEW - 5 minutes to price refresh
+- NEW - 15 seconds to wallet refresh
 - VISUAL - Progress bars to indicate loading
-- VISUAL - asset table's columns now have different default sort orders.
+- VISUAL - asset table columns have better default sort orders.
 
 #### v0.2.2:
 
@@ -25,7 +28,7 @@
 ## Roadmap:
 - 📌 "What's New" - highlighted button showing changelog
 - 📌 Liquidity Pools screen
-- 📌 Show derived asset values for each Liquidity Pool 
+- 📌 Show derived asset values for each Liquidity Pool
 - 📌 Better inline info for assets (price changes, volume, liquidity)
 - 📌 Reward distribution reminder / alert notification (turn on in settings)
 - 📌 Customizable price alerts

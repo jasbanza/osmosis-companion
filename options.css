@@ -1,0 +1,66 @@
+* {
+  user-select: none;
+}
+
+body {
+  background-color: #231d4b;
+  color: #eee;
+}
+
+div.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.075);
+  border-radius: 10px;
+  padding: 5px;
+  margin: 5px;
+  width: auto;
+}
+
+label, input, button, h4, a, select {
+  font-size: 12pt;
+  margin: 5px;
+  padding: 5px;
+  width: auto;
+  text-align: center;
+  border-radius: 10px;
+}
+
+button {
+  width: 100px;
+  border-radius: 10px;
+}
+
+label {
+  color: #ccc;
+}
+
+h4, a {
+  color: #aaa;
+}
+
+input.invalid {
+  outline: 2px solid red;
+}
+
+button {
+  opacity: 0.9;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 1;
+}
+
+.hidden {
+  display: none !important;
+}
+
+#msg.error {
+  color: red;
+}
+
+#msg.success {
+  color: lime;
+}

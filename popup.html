@@ -29,10 +29,10 @@
       </div>
       <!-- menu  -->
       <div class="toolbar-section">
-        <div class="toolbar-item toolbar-icon tooltip" id="btnRefresh">↻<span class="tooltiptext tooltip-right">Force refresh</span></div>
+        <div class="toolbar-item toolbar-icon tooltip" id="btnRefresh">↻<span class="tooltiptext tooltip-right">Refresh now</span></div>
         <div class="toolbar-item toolbar-icon tooltip masked">🗯<span class="tooltiptext tooltip-right">Alerts</span></div>
         <div class="toolbar-item toolbar-icon tooltip masked">✉<span class="tooltiptext tooltip-right">Notifications</span></div>
-        <div class="toolbar-item toolbar-icon tooltip masked">⚙<span class="tooltiptext tooltip-right">Settings</span></div>
+        <a href="options.html"><div class="toolbar-item toolbar-icon tooltip" id="btnSettings">⚙<span class="tooltiptext tooltip-right">Settings</span></div></a>
       </div>
     </div>
   </div>
@@ -106,7 +106,10 @@
     <!-- price refresh countdown -->
     <div class="status-wrapper">
       <div class="status tooltip" id="age_tokens"></div>
-        <div class="status tooltip" id="age_wallet"></div>
+      <div class="status hidden" id="link_options">
+        <a href="options.html">Click here to add your wallet</a>
+      </div>
+      <div class="status tooltip hidden" id="age_wallet"></div>
       <!-- <div class="status tooltip" id="btnRefresh_lastRefreshed"></div> -->
     </div>
   </div>

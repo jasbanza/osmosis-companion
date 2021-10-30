@@ -1,4 +1,3 @@
 
-- reestablish loading masks?
-- Better refresh system - data age pie?
-- wallet in options page
+- reestablish loading masks
+- persist sort order preference in localstorage

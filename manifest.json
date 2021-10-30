@@ -6,6 +6,7 @@
   "background": {
     "service_worker": "background.js"
   },
+  "options_page": "options.html",
   "action": {
     "default_popup": "popup.html",
     "default_title": "Osmosis Companion (Unofficial)\n\nInitializing... \n\nClick here for science!\n\n",
