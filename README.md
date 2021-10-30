@@ -8,7 +8,7 @@
 - 📊 Portfolio dashboard - One place to see your wallet & LP balances (wen? #soon).
 - 🔔 Customizable price alerts
 
-⭐ If you like this, [sprinkle some magic dust to help it grow!](https://app.starname.me/profile/jason)
+⭐ If you like this, [please support me](https://app.starname.me/profile/jason) and spread the word!
 
 ### Changelog:
 #### v0.3.0:
