@@ -191,6 +191,7 @@ companion.assets.wallet.ls.set = async function(wallet) {
 /* get assetlist from the API */
 companion.assets.wallet.api.get = async function(address) {
   console.log('%c Fetching wallet balances...', 'background-color:#080;color:#fff');
+
   return osmo.wallet.balances(address);
 };
 
@@ -225,7 +226,9 @@ companion.assets.wallet.get = async function(options = {
     /* force refresh */
     await companion.assets.wallet.api.get(address)
       .then((data) => {
-        companion.assets.wallet.ls.set(data.result);
+        if (!data.error) {
+          companion.assets.wallet.ls.set(data.result);
+        }
       });
   }
   // get from localstorage

@@ -11,6 +11,10 @@
 ⭐ If you like this, [please support me](https://app.starname.me/profile/jason) and spread the word!
 
 ### Changelog:
+
+#### v0.3.1:
+- HOTFIX - graceful fail if wallet balance can't be fetched (during reward distribution, unable to get osmosis balance from osmosis API)
+
 #### v0.3.0:
 
 - NEW - Wallet asset balances & USD values (save wallet address in settings ⚙)

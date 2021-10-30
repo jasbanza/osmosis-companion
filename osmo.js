@@ -35,6 +35,10 @@ osmo.wallet.balances = async function(wallet) {
     .then(response => response.json())
     .then((data) => {
       ret = data;
+    }).catch(error => {
+      ret = {
+        error: true
+      };
     });
   return ret;
 };
