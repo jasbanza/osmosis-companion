@@ -10,7 +10,22 @@
 
 ⭐ If you like this, [please support me](https://app.starname.me/profile/jason) and spread the word!
 
-### Changelog:
+
+## Roadmap:
+- 📌 "What's New" - highlighted button showing changelog
+- 📌 Liquidity Pools screen
+- 📌 Show derived asset values for each Liquidity Pool
+- 📌 Better inline info for assets (price changes, volume, liquidity)
+- 📌 Reward distribution reminder / alert notification (turn on in settings)
+- 📌 Customizable price alerts
+- 📌 Unclaimed rewards
+- 📌 Portfolio milestones 🎉
+
+Disclaimer, Privacy notice & License can be found in the Github repo:
+[https://github.com/slimslyde/osmosis-companion](https://github.com/slimslyde/osmosis-companion)
+
+
+## Changelog:
 
 #### v0.3.1:
 - HOTFIX - graceful fail if wallet balance can't be fetched (during reward distribution, unable to get osmosis balance from osmosis API)
@@ -28,16 +43,3 @@
 - NEW - Dynamic assets list - when a new token is listed, it will appear automatically!
 - NEW - Tooltips for each asset's volume & liquidity.
 - VISUAL - Improved interface. (scrollable assets, transition animations, ...)
-
-## Roadmap:
-- 📌 "What's New" - highlighted button showing changelog
-- 📌 Liquidity Pools screen
-- 📌 Show derived asset values for each Liquidity Pool
-- 📌 Better inline info for assets (price changes, volume, liquidity)
-- 📌 Reward distribution reminder / alert notification (turn on in settings)
-- 📌 Customizable price alerts
-- 📌 Unclaimed rewards
-- 📌 Portfolio milestones 🎉
-
-Disclaimer, Privacy notice & License can be found in the Github repo:
-[https://github.com/slimslyde/osmosis-companion](https://github.com/slimslyde/osmosis-companion)
