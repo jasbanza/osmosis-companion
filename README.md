@@ -34,7 +34,6 @@ Disclaimer, Privacy notice & License can be found in the Github repo:
 - HOTFIX - graceful fail if wallet balance can't be fetched (during reward distribution, unable to get osmosis balance from osmosis API)
 
 #### v0.3.0:
-
 - NEW - Wallet asset balances & USD values (save wallet address in settings ⚙)
 - NEW - 5 minutes to price refresh
 - NEW - 15 seconds to wallet refresh
@@ -42,7 +41,6 @@ Disclaimer, Privacy notice & License can be found in the Github repo:
 - VISUAL - asset table columns have better default sort orders.
 
 #### v0.2.2:
-
 - NEW - Dynamic assets list - when a new token is listed, it will appear automatically!
 - NEW - Tooltips for each asset's volume & liquidity.
 - VISUAL - Improved interface. (scrollable assets, transition animations, ...)
