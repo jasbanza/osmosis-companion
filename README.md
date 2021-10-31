@@ -27,6 +27,9 @@ Disclaimer, Privacy notice & License can be found in the Github repo:
 
 ## Changelog:
 
+#### v0.3.2:
+- NEW - Telegram channel link
+
 #### v0.3.1:
 - HOTFIX - graceful fail if wallet balance can't be fetched (during reward distribution, unable to get osmosis balance from osmosis API)
 

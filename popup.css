@@ -250,6 +250,20 @@ td.td-value {
   border-radius: 8px;
 }
 
+.svg-icon {
+  background-size: 16px;
+  background-repeat: no-repeat;
+  background-position: center;
+  /* width: 5px;
+  height: 5px; */
+  padding: 9px;
+  filter: invert() opacity(0.4);
+}
+
+.toolbar-item:not(.toolbar-item-active):hover .svg-icon {
+  filter: invert() opacity(0.85);
+}
+
 .toolbar-item:not(.toolbar-item-active):hover {
   color: #FFFFFF;
   background: rgba(255, 255, 255, 0);
