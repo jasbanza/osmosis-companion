@@ -2,6 +2,15 @@
 companion = {
   /* all functions related to assets tab */
   assets: {
+    coingecko: {
+      change: {
+        ls: {
+          get: async function() {},
+          set: async function(change) {}
+        },
+        get: function() {}
+      }
+    },
     /* info.osmosis.zone listed token data */
     tokens: {
       /* localstorage functions */
@@ -72,8 +81,53 @@ companion = {
   }
 };
 
+/*
+  get coingecko 1 h, 24 h, 7 d change
+  for all tokens in assetlist(provided that they have a coingecko_id
+*/
+companion.assets.coingecko.change.get = async function(options = {
+  refresh: false
+}) {
+  if (options.refresh) {
+    var ids = "";
+    await companion.assets.assetlist.ls.get()
+      .then((res) => {
+        res.assetlist.data.assets.forEach((item, i) => {
+          if (i > 0) {
+            ids += ",";
+          }
+          ids += item.coingecko_id;
+        });
+      });
+    await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=' + ids + '&order=market_cap_desc&per_page=250&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d', {
+        cache: "reload"
+      })
+      .then(response => response.json())
+      .then((data) => {
+        companion.assets.coingecko.change.ls.set(data);
+      });
+  }
+  return companion.assets.coingecko.change.ls.get();
+};
+
+/* gets latest coingecko change data from localstorage */
+companion.assets.coingecko.change.ls.get = async function() {
+  // return await getStorageValuePromise("tokens");
+  return await chrome.storage.local.get("change");
+};
+/* sets coingecko change data in localstorage */
+companion.assets.coingecko.change.ls.set = async function(change) {
+  chrome.storage.local.set({
+    "change": {
+      "is": "change",
+      "data": change,
+      "timestamp": Date.now()
+    }
+  });
+};
+
 /* gets tokens (assets & data from info.osmosis.zone) from localstorage */
-companion.assets.tokens.ls.get = async function(refreshIfOlderThanSeconds = null) {
+companion.assets.tokens.ls.get = async function() {
   // return await getStorageValuePromise("tokens");
   return await chrome.storage.local.get("tokens");
 };
@@ -153,7 +207,11 @@ companion.assets.assetlist.ls.set = async function(assetlist) {
 /* get assetlist from the API */
 companion.assets.assetlist.api.get = async function() {
   console.log('%c Fetching assetlist...', 'background-color:#080;color:#fff');
-  return await fetch('https://raw.githubusercontent.com/osmosis-labs/assetlists/main/osmosis-1/osmosis-1.assetlist.json');
+  // return await fetch('osmosis-1.assetlist.json', {
+  return await fetch('https://raw.githubusercontent.com/jasbanza/assetlists/main/osmosis-1/osmosis-1.assetlist.json', {
+  // return await fetch('https://raw.githubusercontent.com/osmosis-labs/assetlists/main/osmosis-1/osmosis-1.assetlist.json', {
+    cache: "reload"
+  });
 };
 
 /* get assetlist from ls, or from the API if refresh = true OR refresh = "only_when_denoms_missing" and denoms are missing */
@@ -247,6 +305,10 @@ companion.assets.get = async function(options = {
     refresh: ((options.refresh) ? options.refresh : options.refresh_tokens)
   });
 
+  const promise_change = companion.assets.coingecko.change.get({
+    refresh: ((options.refresh) ? options.refresh : options.refresh_tokens)
+  });
+
   const promise_assetlist = companion.assets.assetlist.get({
     refresh: ((options.refresh) ? options.refresh : options.refresh_assetlist)
   });
@@ -256,12 +318,15 @@ companion.assets.get = async function(options = {
   });
 
   var assets = {};
-  return Promise.all([promise_assetlist, promise_tokens, promise_wallet])
+  return Promise.all([promise_assetlist, promise_change, promise_tokens, promise_wallet])
     .then((values) => {
       values.forEach((ls, i) => {
         if (ls) {
           if (ls.tokens) {
             assets.tokens = ls.tokens;
+          }
+          if (ls.change) {
+            assets.change = ls.change;
           }
           if (ls.assetlist) {
             assets.assetlist = ls.assetlist;

@@ -3,32 +3,40 @@
 ## A companion utility for https://app.osmosis.zone & https://info.osmosis.zone
 
 - ⌚ Shows time until the next reward distribution (Be sure to pin the extension!)
-- 🧪 Assets info: live prices, liquidity & volume from info.osmosis.zone
+- 🧪 Assets info: live prices, 🚨*NEW*🚨 % changes (1h, 24h, 7d), liquidity & volume from info.osmosis.zone
 - 💰 Wallet asset balances & USD values (add wallet in settings) 🚨*NEW*🚨
-- 📊 Portfolio dashboard - One place to see your wallet & LP balances (wen? #soon).
-- 🔔 Customizable price alerts
+- 📊 Portfolio dashboard - One place to see your wallet & LP balances (wen? #soon)
+- 🔔 Customizable price alerts (wen? #soon)
 
-⭐ If you like this, [please support me](https://app.starname.me/profile/jason) and spread the word!
+If you enjoy this extension, [please support me](https://app.starname.me/profile/jason) and spread the word!
+Also consider ⭐⭐⭐⭐⭐ & leaving a comment.
 
+[Join the Telegram group for feedback & share your ideas](https://t.me/OsmosisCompanionChat)
 
 ## Roadmap:
+
 - 📌 "What's New" - highlighted button showing changelog
-- 📌 Liquidity Pools screen
+- 📌 ** Liquidity Pools screen **
 - 📌 Show derived asset values for each Liquidity Pool
-- 📌 Better inline info for assets (price changes, volume, liquidity)
+- 📌 Revamp UI / Better inline info for assets (price changes, volume, liquidity)
 - 📌 Reward distribution reminder / alert notification (turn on in settings)
 - 📌 Customizable price alerts
 - 📌 Unclaimed rewards
 - 📌 Portfolio milestones 🎉
 
-Disclaimer, Privacy notice & License can be found in the Github repo:
+Disclaimer, Privacy notice & License can be found in the GitHub repo:
 [https://github.com/slimslyde/osmosis-companion](https://github.com/slimslyde/osmosis-companion)
 
 
 ## Changelog:
 
+#### v0.3.3:
+- NEW - % price change (1h, 24h, 7d) - data from CoinGecko
+(note that some don't show yet, but they should sometime in the near future)
+- NEW - Support menu containing helpful links to official Telegram and Discord chats
+
 #### v0.3.2:
-- NEW - Telegram channel link
+- NEW - Telegram channel buttons
 
 #### v0.3.1:
 - HOTFIX - graceful fail if wallet balance can't be fetched (during reward distribution, unable to get osmosis balance from osmosis API)

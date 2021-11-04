@@ -181,7 +181,7 @@ function render_wallet_balances(arrWalletBalances) {
 
 }
 
-function render_tokens(tokens, assetlist) {
+function render_tokens(tokens, change, assetlist) {
   // sort default by liquidity
   tokens.sort((a, b) =>
     (parseFloat(a.liquidity) < parseFloat(b.liquidity)) ? 1 : -1
@@ -205,19 +205,50 @@ function render_tokens(tokens, assetlist) {
     // var pricePretty = price.toFixed(2);
     rowFragment.querySelector(".td-price p").innerHTML = "$" + price.toLocaleString('en-US');
 
+
+
     //tooltips:
     //  + "<span class='button-alert'>&nbsp;&nbsp;🔔</span> "
     var tooltip = "<div class='tooltiptext tooltip-asset'><div class='info'><div class='liquidity'><span class='title'>Liquidity</span>$" + parseInt(token.liquidity).toLocaleString('en-US') + "</div><div class='volume'><span class='title'>24h Volume</span>$" + parseInt(token.volume_24h).toLocaleString('en-US') + "</div><div class='link'>Click to go to: https://info.osmosis.zone/token/" + token.symbol + "</div></div></div>";
-    rowFragment.querySelector(".td-name p").innerHTML = token.name + " <span class='ticker'>" + token.symbol + "</span>" + tooltip;
+    rowFragment.querySelector(".td-name p").innerHTML = token.name + " <br><span class='ticker'>" + token.symbol + "</span>" + tooltip;
     //tooltips:
 
     rowFragment.querySelector(".td-rank").innerHTML = "<span class='rank'>" + (i + 1) + "</span>";
     rowFragment.querySelector("img").src = "https://info.osmosis.zone/assets/" + token.symbol.toLowerCase() + ".png";
 
+
+    var change_1h = 0,
+      change_24h = 0,
+      change_7d = 0;
+
     // get asset img src from info.osmosis.zone, else get from assetlist
     var assetlist_src = "";
     for (var x = 0; x < assetlist.length; x++) {
       if (assetlist[x].base == token.denom) {
+        if (assetlist[x].coingecko_id) {
+          change.forEach((item, i) => {
+            if (item.id == assetlist[x].coingecko_id) {
+
+              change_1h = parseFloat((Math.round((item.price_change_percentage_1h_in_currency + Number.EPSILON) * 1000) / 1000).toFixed(1));
+              change_24h = parseFloat((Math.round((item.price_change_percentage_24h_in_currency + Number.EPSILON) * 1000) / 1000).toFixed(1));
+              change_7d = parseFloat((Math.round((item.price_change_percentage_7d_in_currency + Number.EPSILON) * 1000) / 1000).toFixed(1));
+
+              if (change_1h != 0) {
+                rowFragment.querySelector(".td-change-1h").classList.add((change_1h > 0 ? "pump" : ((change_1h < 0) ? "dump" : "")));
+              }
+              if (change_24h != 0) {
+                rowFragment.querySelector(".td-change-24h").classList.add((change_24h > 0 ? "pump" : ((change_24h < 0) ? "dump" : "")));
+              }
+              if (change_7d != 0) {
+                rowFragment.querySelector(".td-change-7d").classList.add((change_7d > 0 ? "pump" : ((change_7d < 0) ? "dump" : "")));
+              }
+              rowFragment.querySelector(".td-change-1h p").innerHTML = change_1h.toLocaleString('en-US') + "%";
+              rowFragment.querySelector(".td-change-24h p").innerHTML = change_24h.toLocaleString('en-US') + "%";
+              rowFragment.querySelector(".td-change-7d p").innerHTML = change_7d.toLocaleString('en-US') + "%";
+            }
+          });
+        }
+
         if (assetlist[x].logo_URIs.png) {
           assetlist_src = assetlist[x].logo_URIs.png;
         } else if (assetlist[x].logo_URIs.svg) {
@@ -238,6 +269,9 @@ function render_tokens(tokens, assetlist) {
     row.dataset.ticker = token.symbol;
     row.dataset.name = token.name;
     row.dataset.price = token.price;
+    row.dataset.change_1h = change_1h;
+    row.dataset.change_24h = change_24h;
+    row.dataset.change_7d = change_7d;
     row.dataset.liquidity = token.liquidity;
     row.dataset.volume_24h = token.volume_24h;
   });
@@ -259,9 +293,9 @@ function render_assets(assets) {
   maskElement(document.getElementById("tab_myAssets"), "Rendering assets...", 90);
   // check if wallet is returned, else keep it blank to avoid error
   var raw_balances = (assets.wallet && assets.wallet.data) ? assets.wallet.data : [];
+  var change = (assets.change && assets.change.data) ? assets.change.data : [];
   var assetlist = assets.assetlist.data.assets;
-
-  render_tokens(assets.tokens.data, assetlist);
+  render_tokens(assets.tokens.data, change, assetlist);
 
   var arrWalletBalances = [];
   // loop user wallet assets, lookup the denoms against the assetlist, and get corresponding asset symbols
@@ -439,6 +473,9 @@ function compareFields(a, b, options) {
     case "rank":
     case "liquidity":
     case 'price':
+    case 'change_1h':
+    case 'change_24h':
+    case 'change_7d':
     case 'balance':
     case 'value':
       compareA = parseFloat(a.dataset[options.sortBy]);
@@ -534,6 +571,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
+  maskElement(document.getElementById("tab_myAssets"), "Loading assets...", 85);
   refresh_assets_if_old();
   window.refresh_timeout = window.setTimeout(refresh_assets_if_old, 1000);
 
