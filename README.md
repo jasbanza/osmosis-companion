@@ -27,7 +27,7 @@ Also consider ⭐⭐⭐⭐⭐ & leaving a comment.
 - 📌 Portfolio milestones 🎉
 
 Disclaimer, Privacy notice & License can be found in the GitHub repo:
-[https://github.com/slimslyde/osmosis-companion](https://github.com/slimslyde/osmosis-companion)
+[https://github.com/jasbanza/osmosis-companion](https://github.com/jasbanza/osmosis-companion)
 
 
 ## Changelog:
