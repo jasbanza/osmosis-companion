@@ -1,6 +1,6 @@
 {
   "name": "Osmosis Companion (Unofficial)",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "LP rewards countdown, portfolio dashboard, price alerts & more",
   "manifest_version": 3,
   "background": {

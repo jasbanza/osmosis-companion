@@ -208,8 +208,8 @@ companion.assets.assetlist.ls.set = async function(assetlist) {
 companion.assets.assetlist.api.get = async function() {
   console.log('%c Fetching assetlist...', 'background-color:#080;color:#fff');
   // return await fetch('osmosis-1.assetlist.json', {
-  return await fetch('https://raw.githubusercontent.com/jasbanza/assetlists/main/osmosis-1/osmosis-1.assetlist.json', {
-  // return await fetch('https://raw.githubusercontent.com/osmosis-labs/assetlists/main/osmosis-1/osmosis-1.assetlist.json', {
+  // return await fetch('https://raw.githubusercontent.com/jasbanza/assetlists/main/osmosis-1/osmosis-1.assetlist.json', {
+  return await fetch('https://raw.githubusercontent.com/osmosis-labs/assetlists/main/osmosis-1/osmosis-1.assetlist.json', {
     cache: "reload"
   });
 };
