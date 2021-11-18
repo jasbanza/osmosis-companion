@@ -5,8 +5,8 @@
 Chrome Webstore: [https://chrome.google.com/webstore/detail/osmosis-companion-unoffic/gdfaagnfjplgkajlggjfnimdogmgcjob](https://chrome.google.com/webstore/detail/osmosis-companion-unoffic/gdfaagnfjplgkajlggjfnimdogmgcjob)
 
 - ⌚ Shows time until the next reward distribution (Be sure to pin the extension!)
-- 🧪 Assets info: live prices, 🚨*NEW*🚨 % changes (1h, 24h, 7d), liquidity & volume from info.osmosis.zone
-- 💰 Wallet asset balances & USD values (add wallet in settings) 🚨*NEW*🚨
+- 🧪 Assets info: live prices, % changes (1h, 24h, 7d), liquidity & volume from info.osmosis.zone
+- 💰 Wallet asset balances & USD values (add wallet in settings)
 - 📊 Portfolio dashboard - One place to see your wallet & LP balances (wen? #soon)
 - 🔔 Customizable price alerts (wen? #soon)
 
