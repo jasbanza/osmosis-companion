@@ -169,6 +169,7 @@ async function async_refreshAssets(forceRefresh = false) {
 
 function render_wallet_balances(arrWalletBalances) {
   // iterate table of tokens
+  var total = 0;
   arrWalletBalances.forEach((walletBalance, i) => {
     // if there is a balance, update it, else set to zero.
     var row = document.querySelector("[data-ticker='" + walletBalance.symbol + "']");
@@ -177,8 +178,10 @@ function render_wallet_balances(arrWalletBalances) {
     document.querySelector("[data-ticker='" + walletBalance.symbol + "'] .td-value p").innerHTML = "$" + value.toFixed(2).toLocaleString('en-US');
     row.dataset.balance = walletBalance.amount;
     row.dataset.value = value;
+    total += value;
   });
 
+  document.querySelector(".table-footer .total").innerHTML = "$" + total.toFixed(2).toLocaleString('en-US');
 }
 
 function render_tokens(tokens, change, assetlist) {

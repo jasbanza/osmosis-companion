@@ -32,6 +32,13 @@ Disclaimer, Privacy notice & License can be found in the GitHub repo:
 
 ## Changelog:
 
+#### v0.3.5:
+- NEW - Wallet balance total
+- VISUAL - UI tweaks
+
+#### v0.3.4:
+- API endpoint update
+
 #### v0.3.3:
 - NEW - % price change (1h, 24h, 7d) - data from CoinGecko
 (note that some don't show yet, but they should sometime in the near future)

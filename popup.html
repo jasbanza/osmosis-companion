@@ -34,14 +34,14 @@
       <!-- github readme -->
       <!-- <div class="toolbar-section toolbar-item tooltip toolbar-a"> -->
       <div class="toolbar-section toolbar-item tooltip toolbar-a" style="background-color: transparent;">
-        <a href="https://github.com/slimslyde/osmosis-companion#readme" target="_blank" class="toolbar-title">
+        <a href="https://github.com/jasbanza/osmosis-companion#readme" target="_blank" class="toolbar-title">
           <div>
             Osmosis
           </div>
           <div>
             Companion
           </div>
-          <div style="font-size:6pt">version 0.3.4</div>
+          <div style="font-size:6pt">version 0.3.5</div>
         </a>
         <span class="tooltiptext tooltip-left">View on GitHub</span>
       </div>
@@ -91,92 +91,102 @@
 
   <!-- "My Assets" tab -->
   <div class="wrapper selected" id="tab_myAssets">
-    <table style="width: 100%; padding-bottom: 32px;">
-      <thead>
-        <tr class="table-header">
-          <td class="inner-td td-rank">
-            <p class="table-header-text">
-              <div class="sort-button after default-ascending" data-sort="rank" title="Sort by asset liquidity ranking">#</div>
-            </p>
+    <div class="table">
+      <table style="width: 100%; padding-bottom: 32px;">
+        <thead>
+          <tr class="table-header">
+            <td class="inner-td td-rank">
+              <p class="table-header-text">
+                <div class="sort-button after default-ascending" data-sort="rank" title="Sort by asset liquidity ranking">#</div>
+              </p>
+            </td>
+            <td class="inner-td td-name">
+              <p class="table-header-text">
+                <div class="sort-button after default-ascending" data-sort="name" title="Sort asset alphabetically">Asset / Chain</div>
+              </p>
+            </td>
+            <td class="inner-td td-price">
+              <p class="table-header-text">
+                <div class="sort-button" data-sort="price" title="Sort by 'Price'">Price</div>
+              </p>
+            </td>
+            <td class="inner-td td-change-1h change">
+              <p class="table-header-text">
+                <div class="sort-button" data-sort="change_1h" title="Sort by 1 hour price change">1h</div>
+              </p>
+            </td>
+            <td class="inner-td td-change-24h change">
+              <p class="table-header-text">
+                <div class="sort-button" data-sort="change_24h" title="Sort by 24 hour price change">24h</div>
+              </p>
+            </td>
+            <td class="inner-td td-change-7d change">
+              <p class="table-header-text">
+                <div class="sort-button" data-sort="change_7d" title="Sort by 7 day price change">7d</div>
+              </p>
+            </td>
+            <td class="inner-td td-balance">
+              <p class="table-header-text">
+                <div class="sort-button" data-sort="balance" title="Sort by your wallet balance">Balance</div>
+              </p>
+            </td>
+            <td class="inner-td td-value">
+              <p class="table-header-text">
+                <div class="sort-button" data-sort="value" title="Sort by your wallet USD value">Value</div>
+              </p>
+            </td>
+          </tr>
+        </thead>
+        <tbody style="width: 100%;" id="assets_tbody"></tbody>
+      </table>
+
+      <!-- template for rows -->
+      <template id="template_asset_tr">
+        <tr class="inner-tr" data-rank="rank" data-ticker="symbol" data-name="name" data-price="0" data-change_1h="0" data-change_24h="0" data-change_7d="0" data-liquidity="0" data-volume_24h="0" data-balance="0" data-value="0">
+          <td class="inner-td td-rank paw-text">
+            ...
           </td>
           <td class="inner-td td-name">
-            <p class="table-header-text">
-              <div class="sort-button after default-ascending" data-sort="name" title="Sort asset alphabetically">Asset / Chain</div>
-            </p>
+            <img src="" alt="img">
+            <p class="paw-text tooltip"></p>
           </td>
           <td class="inner-td td-price">
-            <p class="table-header-text">
-              <div class="sort-button" data-sort="price" title="Sort by 'Price'">Price</div>
-            </p>
+            <p class="paw-text">...</p>
           </td>
           <td class="inner-td td-change-1h change">
-            <p class="table-header-text">
-              <div class="sort-button" data-sort="change_1h" title="Sort by 1 hour price change">1h</div>
-            </p>
+            <p class="paw-text">-</p>
           </td>
           <td class="inner-td td-change-24h change">
-            <p class="table-header-text">
-              <div class="sort-button" data-sort="change_24h" title="Sort by 24 hour price change">24h</div>
-            </p>
+            <p class="paw-text">-</p>
           </td>
           <td class="inner-td td-change-7d change">
-            <p class="table-header-text">
-              <div class="sort-button" data-sort="change_7d" title="Sort by 7 day price change">7d</div>
-            </p>
+            <p class="paw-text">-</p>
           </td>
           <td class="inner-td td-balance">
-            <p class="table-header-text">
-              <div class="sort-button" data-sort="balance" title="Sort by your wallet balance">Balance</div>
-            </p>
+            <p class="paw-text">...</p>
           </td>
           <td class="inner-td td-value">
-            <p class="table-header-text">
-              <div class="sort-button" data-sort="value" title="Sort by your wallet USD value">Value</div>
-            </p>
+            <p class="paw-text">...</p>
           </td>
         </tr>
-      </thead>
-      <tbody style="width: 100%;" id="assets_tbody"></tbody>
-    </table>
+      </template>
 
-    <!-- template for rows -->
-    <template id="template_asset_tr">
-      <tr class="inner-tr" data-rank="rank" data-ticker="symbol" data-name="name" data-price="0" data-change_1h="0" data-change_24h="0" data-change_7d="0" data-liquidity="0" data-volume_24h="0" data-balance="0" data-value="0">
-        <td class="inner-td td-rank paw-text">
-          ...
-        </td>
-        <td class="inner-td td-name">
-          <img src="" alt="img">
-          <p class="paw-text tooltip"></p>
-        </td>
-        <td class="inner-td td-price">
-          <p class="paw-text">...</p>
-        </td>
-        <td class="inner-td td-change-1h change">
-          <p class="paw-text">-</p>
-        </td>
-        <td class="inner-td td-change-24h change">
-          <p class="paw-text">-</p>
-        </td>
-        <td class="inner-td td-change-7d change">
-          <p class="paw-text">-</p>
-        </td>
-        <td class="inner-td td-balance">
-          <p class="paw-text">...</p>
-        </td>
-        <td class="inner-td td-value">
-          <p class="paw-text">...</p>
-        </td>
-      </tr>
-    </template>
+      <div class="table-footer">
+        <div class="group">
+          <div class="item status tooltip" id="age_tokens"></div>
+          <div class="item status hidden" id="link_options">
+            <a href="options.html">Click here to add your wallet</a>
+          </div>
+          <div class="item status tooltip hidden" id="age_wallet"></div>
+          <div class="item tooltip paw-text total">
+            <span class="tooltiptext tooltip-left">Total Liquid Assets</span>
+          </div>
+        </div>
+      </div>
 
+    </div>
     <!-- price refresh countdown -->
     <div class="status-wrapper">
-      <div class="status tooltip" id="age_tokens"></div>
-      <div class="status hidden" id="link_options">
-        <a href="options.html">Click here to add your wallet</a>
-      </div>
-      <div class="status tooltip hidden" id="age_wallet"></div>
       <!-- <div class="status tooltip" id="btnRefresh_lastRefreshed"></div> -->
     </div>
   </div>
