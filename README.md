@@ -32,6 +32,9 @@ Disclaimer, Privacy notice & License can be found in the GitHub repo:
 
 ## Changelog:
 
+#### v0.3.6:
+- BUGFIX - Wallet balance refresh freezing during reward distribution: During the Osmosis reward distribution, the chain pauses operations and relayers cannot fetch onchain account balances. This results in the extension freezing because of the balance refesh endpoint timing out. A 20 minute waiting period has been set so that wallet balances will not be attempted to refresh during this time.
+
 #### v0.3.5:
 - NEW - Wallet balance total
 - VISUAL - UI tweaks
