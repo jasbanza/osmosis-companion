@@ -426,7 +426,7 @@ companion = {
 
   companion.zones.api.get = async function() {
     console.log('%c Fetching zones...', 'background-color:#080;color:#fff');
-    return await fetch("https://api.smartnodes.co/coins", {
+    return await fetch("https://api.smcloud.app/api/coins/", {
       "headers": {
         "accept": "application/json, text/plain, */*",
         "sec-fetch-dest": "empty",

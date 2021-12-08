@@ -298,17 +298,28 @@ function render_assets(assets) {
   var raw_balances = (assets.wallet && assets.wallet.data) ? assets.wallet.data : [];
   var change = (assets.change && assets.change.data) ? assets.change.data : [];
   var assetlist = assets.assetlist.data.assets;
+  var tokens = assets.tokens.data;
   render_tokens(assets.tokens.data, change, assetlist);
 
   var arrWalletBalances = [];
   // loop user wallet assets, lookup the denoms against the assetlist, and get corresponding asset symbols
   var isAssetFoundInAssetlist = false; // used to check if asset is found in assetlist. if not, then update assetlist
+  var isAssetFoundInTokenArray = false;
   raw_balances.forEach((balance, i) => {
     isAssetFoundInAssetlist = false; // reset flag
     // dont bother with gamm tokens
     if (balance.denom.indexOf("gamm/pool/") == -1) {
       assetlist.forEach((asset, i) => {
-        if (balance.denom == asset.base) {
+        // make sure it's in token list (i.e. only show ones in info.osmosis.zone)
+        // (this is a workaround until there's a better API to get price, liquidity and volume data...)
+        isAssetFoundInTokenArray = false;
+        tokens.forEach((token, i) => {
+          if (token.symbol == asset.symbol) {
+            isAssetFoundInTokenArray = true;
+          }
+        });
+
+        if (balance.denom == asset.base && isAssetFoundInTokenArray) {
           isAssetFoundInAssetlist = true;
           //// console.log('%c Found asset!', 'background-color:#088;color:#fff');
           //// console.log(asset.symbol);
@@ -558,6 +569,11 @@ function unmaskElement(el) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+  new Snow('#snow', {
+    number: 20,
+    r: 2.5,
+    v: 0.8
+  });
   // refresh button
   document.getElementById("btnRefresh").addEventListener("click", btnRefresh_onClick);
   // settings button
