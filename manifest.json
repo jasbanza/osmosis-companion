@@ -8,7 +8,7 @@
   },
   "options_page": "options.html",
   "action": {
-    "default_popup": "index.html",
+    "default_popup": "popup.html",
     "default_title": "Osmosis Companion (Unofficial)\n\nInitializing... \n\nClick here for science!\n\n",
     "default_icon": {
       "16": "/images/icon-16x16.png",
