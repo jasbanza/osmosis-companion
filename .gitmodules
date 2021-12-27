@@ -1,0 +1,9 @@
+[submodule "lib\\convert-bech32-address"]
+	path = lib\\convert-bech32-address
+	url = https://github.com/jasbanza/convert-bech32-address
+[submodule "lib\\coingecko-exchange-rates-js"]
+	path = lib\\coingecko-exchange-rates-js
+	url = https://github.com/jasbanza/coingecko-exchange-rates-js
+[submodule "lib\\tutorial-js"]
+	path = lib\\tutorial-js
+	url = https://github.com/jasbanza/tutorial-js
