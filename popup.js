@@ -31,12 +31,14 @@ function refresh_assets_if_old() {
     .then((assets_orig) => {
       // check if any of the asset objects need to be refreshed
       // is token prices older than 5 minutes?
-      is_tokens_old = !(assets_orig.tokens && assets_orig.tokens.timestamp && (Date.now() - assets_orig.tokens.timestamp) < 300000);
+      is_tokens_old = !(assets_orig.tokens && assets_orig.tokens.timestamp && (Date.now() - assets_orig.tokens.timestamp) < 10000);
       // is assetlist older than 6 hours?
-      is_assetlist_old = !(assets_orig.assetlist && assets_orig.assetlist.timestamp && (Date.now() - assets_orig.assetlist.timestamp) < 21600000);
-      // is wallet data older than 30 seconds?
-      is_wallet_old = !(assets_orig.wallet && assets_orig.wallet.timestamp && (Date.now() - assets_orig.wallet.timestamp) < 15000);
-
+      is_assetlist_old = !(assets_orig.assetlist && assets_orig.assetlist.timestamp && (Date.now() - assets_orig.assetlist.timestamp) < 240000);
+      // is wallet data older than 5 seconds?
+      // TODO: verify if assets_orig.wallet counts as "set"
+      if (assets_orig.wallet) { // only check if wallet has been set!
+        is_wallet_old = (assets_orig.wallet.timestamp && (Date.now() - assets_orig.wallet.timestamp) > 5000);
+      }
       if (is_tokens_old || is_assetlist_old || is_wallet_old) {
         companion.assets.get({
           refresh_tokens: is_tokens_old,
@@ -52,6 +54,7 @@ function refresh_assets_if_old() {
         if (!is_assets_rendered()) {
           render_assets(assets_orig);
         }
+        // TODO: check if wallet link show/hide is being called here:
         update_lastRefreshed();
         // tick
         window.refresh_timeout = window.setTimeout(refresh_assets_if_old, 1000);
@@ -88,82 +91,6 @@ function force_refresh_tokens() {
     .finally(() => {
       // restart timer
       window.refresh_timeout = window.setTimeout(refresh_assets_if_old, 1000);
-    });
-}
-
-
-
-
-async function async_refreshAssets(forceRefresh = false) {
-  var raw_balances = {};
-  var assetlist = {};
-  var arrWalletBalances = [];
-  // sequential for now for testing, but can be faster if done concurrently:
-  // TODO: make concurrent calls, and each "then" must check if all other fetches have completed, then proceed with rendering...
-  // TODO: progressbar function can be adjusted to add % to it... i.e. 25% for each completed call
-  force_refresh_tokens()
-    .then(() => {
-      ////console.log('%c Fetching wallet balances...', 'background-color:#080;color:#fff');
-      maskElement(document.getElementById("btnRefresh"));
-      maskElement(document.getElementById("tab_myAssets"), "Fetching wallet balances...", 70);
-      // fetch wallet balances
-      return osmo.wallet.balances("TODO wallet address");
-    })
-    .then((res) => {
-      raw_balances = res.result;
-      ////console.log('%c Wallet balances (raw):', 'background-color:#088;color:#fff');
-      ////console.table(raw_balances);
-      ////console.log('%c Fetching Asset List...', 'background-color:#080;color:#fff');
-      // fetch assetlist
-      return osmo.assetlist();
-    })
-    .then((res) => {
-      assetlist = res.assets;
-      ////console.log('%c Asset List:', 'background-color:#088;color:#fff');
-      ////console.log(assetlist);
-    }).then(() => {
-      maskElement(document.getElementById("tab_myAssets"), "Rendering wallet balances...", 90);
-      // loop user wallet assets, lookup the denoms against the assetlist, and get corresponding asset symbols
-      var isAssetFoundInAssetlist = false; // used to check if asset is found in assetlist. if not, then update assetlist
-      raw_balances.forEach((balance, i) => {
-        isAssetFoundInAssetlist = false; // reset flag
-        assetlist.forEach((asset, i) => {
-          if (balance.denom == asset.base) {
-            isAssetFoundInAssetlist = true;
-            //// console.log('%c Found asset!', 'background-color:#088;color:#fff');
-            //// console.log(asset.symbol);
-            // get exponent (for decimal point)
-            let exponent = 1;
-            asset.denom_units.forEach((denom_unit, i) => {
-              if (denom_unit.denom.toLowerCase() == asset.symbol.toLowerCase()) {
-                exponent = denom_unit.exponent;
-              }
-            });
-            // build wallet balances
-            arrWalletBalances.push({
-              "symbol": asset.symbol,
-              "amount": balance.amount / (10 ** exponent)
-            });
-            //// console.log(balance.amount);
-            //// console.log((10 ** exponent));
-            //// console.log(balance.amount / (10 ** exponent));
-          }
-        });
-        if (!isAssetFoundInAssetlist) {
-
-        }
-      });
-
-      console.log('%c arrWalletBalances:', 'background-color:#088;color:#fff');
-      console.table(arrWalletBalances);
-      console.log('%c Rendering balances...', 'background-color:#848;color:#fff');
-      render_wallet_balances(arrWalletBalances);
-      // Sort tokens
-      sort_tokens(getCurrentSortOptions());
-    }).then(() => {
-      // unmask
-      unmaskElement(document.getElementById("btnRefresh"));
-      unmaskElement(document.getElementById("tab_myAssets"));
     });
 }
 
@@ -374,6 +301,14 @@ function update_lastRefreshed_tokens(age) {
 }
 
 function update_lastRefreshed_wallet(age) {
+
+  if(!age){
+    document.getElementById("age_wallet").innerHTML = "";
+    document.getElementById("age_wallet").classList.add("hidden");
+    document.getElementById("link_options").classList.remove("hidden");
+    return;
+  }
+
   if (age) {
     var seconds = Math.floor(age / 1000);
     var elapsedText = "",
@@ -389,11 +324,6 @@ function update_lastRefreshed_wallet(age) {
     document.getElementById("age_wallet").innerHTML = "Wallet last refreshed: " + elapsedText + "<span class='tooltiptext tooltip-bottom-right'>Refresh Now</span>";
     document.getElementById("age_wallet").classList.remove("hidden");
     document.getElementById("link_options").classList.add("hidden");
-  } else {
-    document.getElementById("age_wallet").innerHTML = "";
-    document.getElementById("age_wallet").classList.add("hidden");
-    document.getElementById("link_options").classList.remove("hidden");
-
   }
 }
 

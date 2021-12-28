@@ -94,8 +94,7 @@ companion = {
     render_dashboard: async function(data = null) {},
     render_settings: async function(settings = null) {}
   },
-  derivation_lookup: async function(address){
-  }
+  derivation_lookup: async function(address) {}
 };
 
 
@@ -108,9 +107,22 @@ companion = {
   companion.assets.coingecko.change.get = async function(options = {
     refresh: false
   }) {
-    if (options.refresh) {
+    var isChangeLoaded = false;
+    await companion.assets.coingecko.change.ls.get()
+      .then((res) => {
+        change = res.change;
+        // flag if it's been stored
+        if (change && change.timestamp) {
+          isChangeLoaded = true;
+        }
+      });
+
+    // if refresh is forced OR coingecko.change.ls is empty
+    if (!isChangeLoaded || options.refresh) {
       var ids = "";
-      await companion.assets.assetlist.ls.get()
+      // companion.assets.assetlist.get
+      // await companion.assets.assetlist.ls.get()
+      await companion.assets.assetlist.get()
         .then((res) => {
           res.assetlist.data.assets.forEach((item, i) => {
             if (i > 0) {
@@ -242,7 +254,16 @@ companion = {
   companion.assets.assetlist.get = async function(options = {
     refresh: "only_when_denoms_missing"
   }) {
-    if (options.refresh == true || (options.refresh == "only_when_denoms_missing" && !ls_assetlist_has_all_denoms())) {
+    var isAssetlistLoaded = false;
+    await companion.assets.assetlist.ls.get()
+      .then((res) => {
+        assetlist = res.assetlist;
+        // flag if it's been stored
+        if (assetlist && assetlist.timestamp) {
+          isAssetlistLoaded = true;
+        }
+      });
+    if (!isAssetlistLoaded || options.refresh == true || (options.refresh == "only_when_denoms_missing" && !ls_assetlist_has_all_denoms())) {
       /* force refresh */
       await companion.assets.assetlist.api.get()
         .then((response) => response.json())
@@ -290,7 +311,7 @@ companion = {
 
 
   companion.assets.wallet.get = async function(options = {
-    refresh: 10000 /* 10 seconds */
+    refresh: 5000 /* 5 seconds */
   }) {
 
     var address = "";
@@ -304,7 +325,21 @@ companion = {
       return;
     }
 
-    // 2) refresh from API if necessary,
+    // 2) check if wallet is previously fetched.
+    // ... We will do timestamp age checking later
+    var wallet = null;
+    var isWalletLoaded = false;
+
+    await companion.assets.wallet.ls.get()
+      .then((res) => {
+        wallet = res.wallet;
+        // flag if it's been stored
+        if (wallet && wallet.timestamp) {
+          isWalletLoaded = true;
+        }
+      });
+
+    // 3) refresh from API if necessary,
     // but only after 20 minutes after epoch has ended,
     // as the osmosis API is problematic at this time
     // due to reward distribution
@@ -314,7 +349,8 @@ companion = {
     });
     // check if epoch has been "started" (will be false if the epoch hasn't been updated)
     if (Math.floor(epoch_end_unix - Date.now()) > 0) {
-      if (options.refresh == true || (options.refresh)) {
+      // if wallet isn't loaded yet
+      if (!isWalletLoaded || options.refresh == true || (options.refresh)) {
         /* force refresh */
         await companion.assets.wallet.api.get(address)
           .then((data) => {
@@ -340,6 +376,7 @@ companion = {
       refresh: ((options.refresh) ? options.refresh : options.refresh_tokens)
     });
 
+    // cross-references assetlist:
     const promise_change = companion.assets.coingecko.change.get({
       refresh: ((options.refresh) ? options.refresh : options.refresh_tokens)
     });
@@ -488,9 +525,9 @@ companion = {
     var all_accounted_for = true;
     // 1) get tokens from LS
     var tokens = [];
-    companion.assets.wallet.ls.get()
+    companion.assets.tokens.ls.get()
       .then((res) => {
-        tokens = res.tokens.data
+        tokens = res.tokens.data;
       });
 
     // 2) get assetlist from LS
