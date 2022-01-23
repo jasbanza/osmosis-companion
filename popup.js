@@ -12,6 +12,19 @@ function btnRefresh_onClick() {
   force_refresh_tokens();
 }
 
+
+function btnDetachWindow_onClick() {
+  closeWindow();
+  window.open("popup.html?detached=true", "Osmosis Companion", "popup,location=off,height=535,width=645");
+
+}
+
+function closeWindow() {
+  window.close();
+}
+
+
+
 function btnSettings_onClick() {
   chrome.runtime.openOptionsPage();
 }
@@ -302,7 +315,7 @@ function update_lastRefreshed_tokens(age) {
 
 function update_lastRefreshed_wallet(age) {
 
-  if(!age){
+  if (!age) {
     document.getElementById("age_wallet").innerHTML = "";
     document.getElementById("age_wallet").classList.add("hidden");
     document.getElementById("link_options").classList.remove("hidden");
@@ -489,6 +502,19 @@ function maskElement(el, maskText = null, progress = null) {
   }
 }
 
+function findGetParameter(parameterName) {
+  var result = null,
+    tmp = [];
+  location.search
+    .substr(1)
+    .split("&")
+    .forEach(function(item) {
+      tmp = item.split("=");
+      if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+    });
+  return result;
+}
+
 function unmaskElement(el) {
   el.classList.remove("masked");
   document.querySelector("#mask span").classList.remove("show");
@@ -499,13 +525,24 @@ function unmaskElement(el) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  new Snow('#snow', {
-    number: 20,
-    r: 2.5,
-    v: 0.8
-  });
+
+  if (findGetParameter("detached")) {
+    document.getElementById("btnDetachWindow").style.display = "none";
+    document.getElementById("aOpenInTab").style.display = "";
+    window.resizeTo(535,645);
+    // window.resizeTo(555,700);
+
+  }
+
   // refresh button
   document.getElementById("btnRefresh").addEventListener("click", btnRefresh_onClick);
+
+  // detatch window button
+  document.getElementById("btnDetachWindow").addEventListener("click", btnDetachWindow_onClick);
+
+  // open in a tab <a>
+  document.getElementById("aOpenInTab").addEventListener("click", closeWindow);
+
   // settings button
   // document.getElementById("btnSettings").addEventListener("click", btnSettings_onClick);
 

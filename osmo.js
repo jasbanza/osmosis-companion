@@ -43,6 +43,51 @@ osmo.wallet.balances = async function(wallet) {
   return ret;
 };
 
+
+osmo.wallet.delegations = async function(wallet) {
+  let ret = {};
+  await fetch('https://lcd-osmosis.keplr.app/staking/delegators/' + wallet + '/delegations')
+    .then(response => response.json())
+    .then((data) => {
+      ret = data;
+    }).catch(error => {
+      ret = {
+        error: true
+      };
+    });
+  return ret;
+};
+
+osmo.wallet.unbonding_delegations = async function(wallet) {
+  let ret = {};
+  await fetch('https://lcd-osmosis.keplr.app/staking/delegators/' + wallet + '/unbonding_delegations')
+    .then(response => response.json())
+    .then((data) => {
+      ret = data;
+    }).catch(error => {
+      ret = {
+        error: true
+      };
+    });
+  return ret;
+};
+
+
+osmo.wallet.locked = async function(wallet) {
+  let ret = {};
+  await fetch('https://lcd-osmosis.keplr.app/osmosis/lockup/v1beta1/account_locked_coins/' + wallet)
+    .then(response => response.json())
+    .then((data) => {
+      ret = data;
+    }).catch(error => {
+      ret = {
+        error: true
+      };
+    });
+  return ret;
+};
+
+
 osmo.wallet.rewards = async function(wallet) {
   let ret = {};
   await fetch('https://lcd-osmosis.keplr.app/osmosis/lockup/v1beta1/account_unlockable_coins/' + wallet)

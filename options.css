@@ -3,8 +3,22 @@
 }
 
 body {
+  margin-left: auto;
+  margin-right: auto;
+  width: 584px;
   background-color: #231d4b;
   color: #eee;
+}
+
+div.section {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background-color: rgba(255, 255, 255, 0.055);
+  border-radius: 15px;
+  padding: 5px;
+  margin: 5px;
+  width: auto;
 }
 
 div.container {
@@ -18,7 +32,16 @@ div.container {
   width: auto;
 }
 
-label, input, button, h4, a, select {
+div.container.row {
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+div.container.column {
+  flex-direction: column;
+}
+
+label, input, h4, a, select, button {
   font-size: 12pt;
   margin: 5px;
   padding: 5px;
@@ -27,9 +50,14 @@ label, input, button, h4, a, select {
   border-radius: 10px;
 }
 
-button {
-  width: 100px;
-  border-radius: 10px;
+input {
+  width: 350px;
+  background-color: hsl(247deg 31% 26%);
+  color: #bbbbbb;
+}
+
+input:hover, input:focus {
+  background-color: hsl(247deg 31% 29%);
 }
 
 label {
@@ -57,10 +85,38 @@ button:hover {
   display: none !important;
 }
 
+.address label, .address input, .address h4, .address a, .address select, .address button {
+  font-size: 10pt;
+  margin: 3px;
+  padding: 3px;
+  width: auto;
+  text-align: center;
+  border-radius: 7px;
+}
+
+.address label {}
+
+.address input {
+  font-family: monospace;
+}
+
+.address input:disabled {
+  background-color: #3e3962;
+}
+
 #msg.error {
   color: red;
 }
 
 #msg.success {
   color: lime;
+}
+
+#snow {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: fixed;
+  pointer-events: none;
 }

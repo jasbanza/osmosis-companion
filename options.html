@@ -5,22 +5,74 @@
   <meta charset="utf-8">
   <title>Osmosis Companion - Options</title>
   <link rel="stylesheet" href="options.css">
+  <script type="text/javascript" src="lib/coingecko-exchange-rates-js/lib/big.min.js"></script>
+  <script type="text/javascript" src="lib/coingecko-exchange-rates-js/index.js"></script>
+  <script type="text/javascript" src="lib/convert-bech32-address/dist/script.min.js"></script>
+  <script type="text/javascript" src="lib/snow-js/snow.min.js"></script>
+  <script type="text/javascript" src="settings.js"></script>
+  <script type="text/javascript" src="options.js"></script>
+  <script type="text/javascript" src="companion.js"></script>
 </head>
 
 <body>
+  <div id="snow"></div>
   <div class="container">
     <h1>Osmosis Companion - Options</h1>
   </div>
 
   <br>
-  <div class="container">
-    <label for="address">Osmosis address</label>
-    <input type="address" name="address" id="address" value="" placeholder="Enter your address here">
-    <button type="button" name="save" id="btnSaveAddress">Save</button>
-    <button type="button" name="clear" id="btnClearAddress">Clear</button>
-  </div>
+  <div class="section">
+    <!-- PORTFOLIO
+    <div class="container">
+      <label for="walletName">Portfolio Name</label>
+      <input type="text" name="walletName" id="walletName" value="" placeholder='"My Portfolio"'>
+    </div> -->
 
-  <div class="container hidden" id="msg">
+    <!-- OSMOSIS WALLET ADDRESS -->
+    <div class="container address">
+      <label for="address_osmo">Osmosis</label>
+      <input type="text" name="address" id="address" value="" placeholder="Your Osmosis address">
+      <button type="button" name="save" id="btnSaveAddress">💾</button>
+      <button type="button" name="clear" id="btnClearAddress">❌</button>
+    </div>
+    <div class="container hidden" id="msg"></div>
+
+    <!-- OTHER IBC WALLETS -->
+    <!-- <div class="container row">
+      <label for="address_other">Other</label>
+      <input type="text" name="address_other" id="address_other" value="" placeholder="Add another chain's address">
+      <button type="button" name="new_multi" id="btnAddMulti" title="Auto-derive">✨</button>
+      <button type="button" name="new_one" id="btnAddSingle">✔️</button>
+    </div> -->
+
+
+    <div class="container" id="containerAddOrDerive">
+      <label>Add IBC enabled wallets:</label>
+      <button type="button" id="btnAddSingle">➕ Add single</button>
+      <button type="button" id="btnAutoderive" title="Auto-derive">✨ Derive from bech32</button>
+    </div>
+
+    <div class="prompt hidden" id="promptConfirmDerive">
+      <label><i><b>Are you sure?</b><br />Using auto-derive will overwrite all other addresses below...</i></label><br />
+      <button type="button" id="btnConfirmAutoderive" title="Confirm auto-derive">✔️ Proceed</button>
+      <button type="button" id="btnCancelAutoderive" title="Cancel auto-derive">❌ Cancel</button>
+    </div>
+    <div class="container column" id="otherWallets">
+    </div>
+
+    <template id="template_dynamic_address">
+      <div class="address">
+        <label for="">Address</label>
+        <input type="text" disabled="disabled" name="" value="" placeholder="Your Template address">
+        <button type="button" class="button-edit">✏️</button>
+        <button type="button" class="button-save hidden">✔️</button>
+        <button type="button" class="button-delete">❌</button>
+      </div>
+    </template>
+
+
+    <template id="template_single_address">
+    </template>
 
   </div>
   <div class="container">
@@ -36,11 +88,10 @@
   <br>
   <div class="container">
     <h4>
-      🥰 Show support:
+      Show support:
     </h4>
     <a href="https://app.starname.me/profile/jason" target="_blank">app.starname.me/profile/jason</a>
   </div>
-  <script src="options.js"></script>
 </body>
 
 </html>

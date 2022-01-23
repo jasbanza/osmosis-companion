@@ -71,11 +71,123 @@ function btnClear_onclick() {
 
 function removeAddress() {
   chrome.storage.sync.clear("address");
+  chrome.storage.local.clear("wallet"); // this is important... else frontend gets confused
+
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+function btnAutoderive_onClick() {
+  show_promptConfirmDerive();
+}
+
+function btnCancelAutoderive_onClick() {
+  hide_promptConfirmDerive();
+}
+
+function btnConfirmAutoderive_onClick() {
+  hide_promptConfirmDerive();
+  autoDerive();
+}
+
+function show_promptConfirmDerive() {
+  document.getElementById("promptConfirmDerive").classList.remove("hidden");
+}
+
+function hide_promptConfirmDerive() {
+  document.getElementById("promptConfirmDerive").classList.add("hidden");
+}
+
+function autoDerive() {
+  var address = document.getElementById("address").value;
+  document.getElementById("otherWallets").innerHTML = "";
+  // Call SmartNodes API to get wallet prefixes
+  companion.zones.get({
+      "refresh": true
+    })
+    .then((res) => {
+      var data = res.zones.data;
+      console.log(data);
+
+      // start looking through the api for prefixes,
+      // and derive each addres into html template.
+      // get HTML template for each address
+      var template_dynamic_address = document.getElementById("template_dynamic_address");
+
+
+      for (var zone in data) {
+        // check if the chain is not the primary token in the chain
+        if (!data[zone].chain.motherchain) {
+          //  get prefix
+          let prefix = data[zone].chain.prefix;
+
+          var docFrag = template_dynamic_address.content.cloneNode(true);
+          docFrag.querySelector("div.address").dataset.ticker = data[zone].ticker;
+          docFrag.querySelector("label").innerHTML = data[zone].name;
+          docFrag.querySelector("input").value = lookup(address, prefix);
+          document.getElementById("otherWallets").appendChild(docFrag);
+
+          // document.getElementById("otherWallets").innerHTML += prefix;
+          // //  2.2) Derive from each prefix
+          // document.getElementById("otherWallets").innerHTML += " - ";
+          // document.getElementById("otherWallets").innerHTML +=
+          // document.getElementById("otherWallets").innerHTML += "<br>";
+        }
+      }
+      // add button listeners
+
+      // EDIT BUTTON
+      document.querySelectorAll("#otherWallets .button-edit").forEach((item, i) => {
+        item.onclick = function() {
+          item.parentElement.querySelector("input").disabled = false;
+          item.classList.add("hidden");
+          item.parentElement.querySelector(".button-save").classList.remove("hidden");
+        };
+      });
+
+      // SAVE BUTTON
+      document.querySelectorAll("#otherWallets .button-save").forEach((item, i) => {
+        item.onclick = function() {
+          item.parentElement.querySelector("input").disabled = true;
+          item.classList.add("hidden");
+          item.parentElement.querySelector(".button-edit").classList.remove("hidden");
+        };
+      });
+
+      // DELETE BUTTON
+      document.querySelectorAll("#otherWallets .button-delete").forEach((item, i) => {
+        item.onclick = function() {
+          item.parentElement.innerHTML = "";
+        };
+      });
+    });
+}
+
+
+document.addEventListener('DOMContentLoaded', async function() {
+  new Snow('#snow', {
+    number: 20,
+    r: 2.5,
+    v: 0.8
+  });
+
   document.getElementById("address").oninput = address_onChange;
   document.getElementById("btnSaveAddress").onclick = btnSave_onclick;
   document.getElementById("btnClearAddress").onclick = btnClear_onclick;
+
+  document.getElementById("btnAutoderive").onclick = btnAutoderive_onClick;
+  document.getElementById("btnCancelAutoderive").onclick = btnCancelAutoderive_onClick;
+  document.getElementById("btnConfirmAutoderive").onclick = btnConfirmAutoderive_onClick;
+
+
   restore_options();
+
+  var rates = await RATES.get(); // get rates
+
+  // if(SETTINGS.get)
+
+  // console.log(await RATES.exchange({
+  //   "from": "usd",
+  //   "to": "zar",
+  //   "amount": 1,
+  //   "rates": rates
+  // }));
 });
