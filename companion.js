@@ -94,7 +94,13 @@ companion = {
     render_dashboard: async function(data = null) {},
     render_settings: async function(settings = null) {}
   },
-  derivation_lookup: async function(address) {}
+  derivation_lookup: async function(address) {},
+  settings: {
+    default_sort: {
+      get: async function() {},
+      set: async function() {}
+    }
+  }
 };
 
 
@@ -506,6 +512,25 @@ companion = {
       });
     return ret;
   }
+}
+
+/* SETTINGS */
+// settings: {
+//   default_sort: {
+//     get: async function() {},
+//     set: async function() {}
+//   }
+// }
+{
+  companion.settings.default_sort.get = async function() {
+    return await chrome.storage.sync.get("default_sort");
+  };
+
+  companion.settings.default_sort.set = async function(default_sort) {
+    chrome.storage.sync.set({
+      "default_sort": default_sort
+    });
+  };
 }
 
 /* OTHER */

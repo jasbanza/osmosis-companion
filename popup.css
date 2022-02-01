@@ -562,23 +562,7 @@ td.td-value {
   color: rgba(255, 255, 255, 0.6);
 }
 
-/* sort header hover icon before (default ascending)*/
-.table-header .inner-td:hover>.sort-button.default-ascending:not(.descending):not(.ascending):not(.after)::before,
-.table-header-text:hover+.sort-button.default-ascending:not(.descending):not(.ascending):not(.after)::before,
-.sort-button.default-ascending:not(.descending):not(.ascending):not(.after):hover::before {
-  margin-right: 3px;
-  content: '⬆';
-}
-
-/* sort header hover icon after (default ascending)*/
-.table-header .inner-td:hover>.sort-button.default-ascending:not(.descending):not(.ascending).after::after,
-.table-header-text:hover+.sort-button.default-ascending:not(.descending):not(.ascending).after::after,
-.sort-button.default-ascending:not(.descending):not(.ascending).after:hover::after {
-  margin-left: 3px;
-  content: '⬆';
-}
-
-/* sort header hover icon before (default descending)*/
+/* sort hover before */
 .table-header .inner-td:hover>.sort-button:not(.descending):not(.ascending):not(.after)::before,
 .table-header-text:hover+.sort-button:not(.descending):not(.ascending):not(.after)::before,
 .sort-button:not(.descending):not(.ascending):not(.after):hover::before {
@@ -586,7 +570,7 @@ td.td-value {
   content: '⬇';
 }
 
-/* sort header hover icon after (default descending)*/
+/* sort hover after */
 .table-header .inner-td:hover>.sort-button:not(.descending):not(.ascending).after::after,
 .table-header-text:hover+.sort-button:not(.descending):not(.ascending).after::after,
 .sort-button:not(.descending):not(.ascending).after:hover::after {
@@ -605,12 +589,14 @@ td.td-value {
 }
 
 /* descending icon */
-.sort-button.descending:not(.after)::before, .sort-button.descending.after::after {
+.sort-button.descending:not(.after)::before, .sort-button.descending.after::after,
+.sort-button.default-ascending.ascending:not(.after)::before, .sort-button.default-ascending.ascending.after::after  {
   content: '⬇';
 }
 
 /* ascending icon */
-.sort-button.ascending:not(.after)::before, .sort-button.ascending.after::after {
+.sort-button.ascending:not(.after)::before, .sort-button.ascending.after::after,
+.sort-button.default-ascending.descending:not(.after)::before, .sort-button.default-ascending.descending.after::after  {
   content: '⬆';
 }
 

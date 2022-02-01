@@ -385,6 +385,8 @@ function updateLastRefreshed_old(seconds) {
 function btnSort_onClick(el) {
   var sortInfo = update_sortButtons(el);
   sort_tokens(sortInfo);
+  // save sort options:
+  companion.settings.default_sort.set(sortInfo);
 }
 
 function getCurrentSortOptions() {
@@ -405,6 +407,16 @@ function getCurrentSortOptions() {
 
   // var sortBy = document.querySelectorAll(".sort-button").dataset.sort;
   return options;
+}
+
+function setSortFromOptions(options) {
+  document.querySelectorAll(".sort-button").forEach((sortButton, i) => {
+    sortButton.classList.remove("ascending", "descending");
+    if (sortButton.dataset.sort == options.sortBy) {
+      sortButton.classList.add(options.sortOrder);
+      return;
+    }
+  });
 }
 
 /**
@@ -458,6 +470,8 @@ function update_sortButtons(el) {
   // get state:
   var sortBy = el.dataset.sort;
   var newSortOrder = "descending";
+  // NB: default-ascending indicates behaviour when you click the column,
+  // not to be confused with default_sort from settings
   if (el.classList.contains("default-ascending")) {
     newSortOrder = "ascending";
   }
@@ -553,6 +567,13 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById("age_wallet").addEventListener("click", btnRefresh_onClick);
 
   // column sorting
+
+  companion.settings.default_sort.get()
+    .then((res) => {
+      setSortFromOptions(res.default_sort);
+    });
+
+
   document.querySelectorAll(".sort-button").forEach((button) => {
     button.addEventListener('click', () => {
       // sort(button);
