@@ -143,7 +143,8 @@ function render_tokens(tokens, change, assetlist) {
     var rowFragment = template_asset_tr.content.cloneNode(true);
 
     //  set values
-    var price = parseFloat((Math.round((token.price + Number.EPSILON) * 1000) / 1000).toFixed(2)); //parseFloat(price);
+    var price = parseFloat((Math.round((token.price + Number.EPSILON) * 1000) / 1000).toFixed(5)); //parseFloat(price);
+    // var price = parseFloat((Math.round((token.price + Number.EPSILON) * 10000)).toFixed(5)); //parseFloat(price);
     // console.log(price);
     // var pricePretty = price.toFixed(2);
     rowFragment.querySelector(".td-price p").innerHTML = "$" + price.toLocaleString('en-US');
@@ -157,7 +158,7 @@ function render_tokens(tokens, change, assetlist) {
     //tooltips:
 
     rowFragment.querySelector(".td-rank").innerHTML = "<span class='rank'>" + (i + 1) + "</span>";
-    rowFragment.querySelector("img").src = "https://info.osmosis.zone/assets/" + token.symbol.toLowerCase() + ".png";
+    // rowFragment.querySelector("img").src = "https://info.osmosis.zone/assets/" + token.symbol.toLowerCase() + ".png";
 
 
     var change_1h = 0,
@@ -200,13 +201,15 @@ function render_tokens(tokens, change, assetlist) {
       }
     }
 
+    rowFragment.querySelector("img").src = assetlist_src;
+
+
     // add row to table body
     assets_tbody.appendChild(rowFragment);
     var row = document.querySelector("#assets_tbody .inner-tr:last-child");
-    document.querySelector("#assets_tbody .inner-tr:last-child img").onerror = function(e) {
-      this.onerror = img_onerror;
-      this.src = assetlist_src;
-    };
+
+    // image error handling
+    document.querySelector("#assets_tbody .inner-tr:last-child img").onerror = img_onerror;
     // set dataset attribute for price:
     row.dataset.rank = (i + 1);
     row.dataset.ticker = token.symbol;
@@ -529,7 +532,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (findGetParameter("detached")) {
     document.getElementById("btnDetachWindow").style.display = "none";
     document.getElementById("aOpenInTab").style.display = "";
-    window.resizeTo(535,645);
+    window.resizeTo(535, 645);
     // window.resizeTo(555,700);
 
   }
