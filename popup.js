@@ -269,7 +269,7 @@ function render_assets(assets) {
           // get exponent (for decimal point)
           let exponent = 1;
           asset.denom_units.forEach((denom_unit, i) => {
-            if (denom_unit.denom.toLowerCase() == asset.symbol.toLowerCase()) {
+            if (denom_unit.denom.toLowerCase() == asset.display.toLowerCase()) {
               exponent = denom_unit.exponent;
             }
           });
