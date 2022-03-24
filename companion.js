@@ -187,7 +187,7 @@ companion = {
   /* get tokens from the API */
   companion.assets.tokens.api.get = async function() {
     console.log('%c Fetching tokens...', 'background-color:#080;color:#fff');
-    return await fetch("https://api-osmosis.imperator.co/tokens/v1/all", {
+    return await fetch("https://api-osmosis.imperator.co/tokens/v2/all", {
       "headers": {
         "accept": "application/json, text/plain, */*",
         "accept-language": "en-US,en;q=0.9",

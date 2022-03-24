@@ -24,7 +24,6 @@ Also consider ⭐⭐⭐⭐⭐ & leaving a comment.
 - 📌 Reward distribution reminder / alert notification (turn on in settings)
 - 📌 Customizable price alerts
 - 📌 Unclaimed rewards
-- 📌 Portfolio milestones 🎉
 
 Disclaimer, Privacy notice & License can be found in the GitHub repo:
 [https://github.com/jasbanza/osmosis-companion](https://github.com/jasbanza/osmosis-companion)
@@ -32,35 +31,6 @@ Disclaimer, Privacy notice & License can be found in the GitHub repo:
 
 ## Changelog:
 
-#### v0.3.6:
-- BUGFIX - Wallet balance refresh freezing during reward distribution: During the Osmosis reward distribution, the chain pauses operations and relayers cannot fetch onchain account balances. This results in the extension freezing because of the balance refesh endpoint timing out. A 20 minute waiting period has been set so that wallet balances will not be attempted to refresh during this time.
 
-#### v0.3.5:
-- NEW - Wallet balance total
-- VISUAL - UI tweaks
-
-#### v0.3.4:
-- API endpoint update
-
-#### v0.3.3:
-- NEW - % price change (1h, 24h, 7d) - data from CoinGecko
-(note that some don't show yet, but they should sometime in the near future)
-- NEW - Support menu containing helpful links to official Telegram and Discord chats
-
-#### v0.3.2:
-- NEW - Telegram channel buttons
-
-#### v0.3.1:
-- HOTFIX - graceful fail if wallet balance can't be fetched (during reward distribution, unable to get osmosis balance from osmosis API)
-
-#### v0.3.0:
-- NEW - Wallet asset balances & USD values (save wallet address in settings ⚙)
-- NEW - 5 minutes to price refresh
-- NEW - 15 seconds to wallet refresh
-- VISUAL - Progress bars to indicate loading
-- VISUAL - asset table columns have better default sort orders.
-
-#### v0.2.2:
-- NEW - Dynamic assets list - when a new token is listed, it will appear automatically!
-- NEW - Tooltips for each asset's volume & liquidity.
-- VISUAL - Improved interface. (scrollable assets, transition animations, ...)
+#### v0.3.10:
+- Now working with Osmosis v2 API
