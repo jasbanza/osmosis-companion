@@ -114,7 +114,7 @@ function render_wallet_balances(arrWalletBalances) {
     // if there is a balance, update it, else set to zero.
     var row = document.querySelector("[data-ticker='" + walletBalance.symbol + "']");
     var value = walletBalance.amount * row.dataset.price;
-    document.querySelector("[data-ticker='" + walletBalance.symbol + "'] .td-balance p").innerHTML = walletBalance.amount.toFixed(3);
+    document.querySelector("[data-ticker='" + walletBalance.symbol + "'] .td-balance p").innerHTML = format_decimals(walletBalance.amount);
     document.querySelector("[data-ticker='" + walletBalance.symbol + "'] .td-value p").innerHTML = "$" + value.toFixed(2).toLocaleString('en-US');
     row.dataset.balance = walletBalance.amount;
     row.dataset.value = value;
@@ -267,16 +267,17 @@ function render_assets(assets) {
           //// console.log('%c Found asset!', 'background-color:#088;color:#fff');
           //// console.log(asset.symbol);
           // get exponent (for decimal point)
-          let exponent = 1;
+          let exponent = 0;
           asset.denom_units.forEach((denom_unit, i) => {
-            if (denom_unit.denom.toLowerCase() == asset.display.toLowerCase()) {
+            // cater for if "denom" or "base" is used incorrectly in assetlist
+            if (denom_unit.denom.toLowerCase() == asset.display.toLowerCase() || denom_unit.denom.toLowerCase() == asset.base.toLowerCase()) {
               exponent = denom_unit.exponent;
             }
           });
           // build wallet balances
           arrWalletBalances.push({
             "symbol": asset.symbol,
-            "amount": balance.amount / (10 ** exponent)
+            "amount": (exponent == 0) ? balance.amount * 1 : balance.amount / (10 ** exponent)
           });
           ////console.log(balance.amount);
           ////console.log((10 ** exponent));
@@ -464,6 +465,24 @@ function compareFields(a, b, options) {
     return (compareA < compareB) ? 1 : -1;
   }
   return (compareA > compareB) ? 1 : -1;
+}
+
+/**
+ * function to optionally return decimals according to input value
+ */
+function format_decimals(val) {
+  // no decimals
+  if (Math.floor(val) == val) {
+    return val;
+  }
+  // tiny
+  if (val < 0.001) {
+    return Number(val).toExponential();
+  }
+
+  // all others with decimal points, format and trim trailing zeroes
+  return parseFloat(Number(val).toFixed(3))
+
 }
 
 function update_sortButtons(el) {

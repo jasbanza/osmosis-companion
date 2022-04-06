@@ -11,26 +11,20 @@ Chrome Webstore: [https://chrome.google.com/webstore/detail/osmosis-companion-un
 - 🔔 Customizable price alerts (wen? #soon)
 
 If you enjoy this extension, [please support me](https://app.starname.me/profile/jason) and spread the word!
-Also consider ⭐⭐⭐⭐⭐ & leaving a comment.
+Also consider rating ⭐⭐⭐⭐⭐ & leaving a comment.
 
 [Join the Telegram group for feedback & share your ideas](https://t.me/OsmosisCompanionChat)
 
 ## Roadmap:
-
-- 📌 "What's New" - highlighted button showing changelog
-- 📌 ** Liquidity Pools screen **
-- 📌 Show derived asset values for each Liquidity Pool
-- 📌 Revamp UI / Better inline info for assets (price changes, volume, liquidity)
-- 📌 Reward distribution reminder / alert notification (turn on in settings)
-- 📌 Customizable price alerts
-- 📌 Unclaimed rewards
-
-Disclaimer, Privacy notice & License can be found in the GitHub repo:
-[https://github.com/jasbanza/osmosis-companion](https://github.com/jasbanza/osmosis-companion)
+[Click to view the roadmap](https://github.com/users/jasbanza/projects/1/views/4 )
 
 
 ## Changelog:
 
+#### v0.3.11:
+- Removed trailing zeroes from balance
+- If balance < 0.001, display in scientific notation
+- Bugfix: Incorrect exponent was used for decimal point for BOOT (and possibly other assets too). Fixed by catering for cases where "denom" and "base" are used inconsistently between different assets in the Osmosis assetlist.
 
 #### v0.3.10:
 - Now working with Osmosis v2 API
