@@ -24,6 +24,9 @@ Also consider rating ⭐⭐⭐⭐⭐ & leaving a comment.
 
 ## Changelog:
 
+#### v0.3.13:
+- Workaround: now that there are more than 50 assets, noticed a limitation from the Coingecko API which returns max 50 tokens. So now it is batched over multiple API calls
+
 #### v0.3.12:
 - Using frontier asset list
 

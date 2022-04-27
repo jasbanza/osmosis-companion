@@ -126,24 +126,52 @@ companion = {
     // if refresh is forced OR coingecko.change.ls is empty
     if (!isChangeLoaded || options.refresh) {
       var ids = "";
-      // companion.assets.assetlist.get
-      // await companion.assets.assetlist.ls.get()
+      var arr_request_ids = []; // coingecko API results per page doesnt work correctly, and only ever returns up to 50 tokens
+
       await companion.assets.assetlist.get()
         .then((res) => {
+          let idsCount = 0;
           res.assetlist.data.assets.forEach((item, i) => {
-            if (i > 0) {
+            if (idsCount > 0) {
               ids += ",";
             }
             ids += item.coingecko_id;
+            idsCount++;
+            if (idsCount == 50) {
+              arr_request_ids.push(ids);
+              ids = "";
+              idsCount = 0;
+            }
           });
+          if (ids != "") {
+            arr_request_ids.push(ids);
+          }
         });
-      await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=' + ids + '&order=market_cap_desc&per_page=250&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d', {
+      let fetch_promises = [];
+      for (var request_ids of arr_request_ids) {
+        fetch_promises.push(fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=' + request_ids + '&order=market_cap_desc&per_page=250&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d%2C30d%2C1y', {
           cache: "reload"
-        })
-        .then(response => response.json())
-        .then((data) => {
-          companion.assets.coingecko.change.ls.set(data);
+        }));
+      }
+
+      let combined_cg_data = [];
+      await Promise.all(fetch_promises)
+        .then(async (responses) => {
+          for (var response of responses) {
+            await response.json()
+              .then((data) => {
+                combined_cg_data.push(...data);
+              });
+          }
+          companion.assets.coingecko.change.ls.set(combined_cg_data);
         });
+      // await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=' + ids + '&order=market_cap_desc&per_page=250&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d%2C30d%2C1y', {
+      //     cache: "reload"
+      //   })
+      //   .then(response => response.json())
+      //   .then((data) => {
+      //     companion.assets.coingecko.change.ls.set(data);
+      //   });
     }
     return companion.assets.coingecko.change.ls.get();
   };

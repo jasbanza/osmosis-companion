@@ -34,9 +34,6 @@ var DELAY = 1;
 
 
   function gotEpochFromStorage_callback(result) {
-    //// console.log('gotEpochFromStorage_callback(result)');
-    //// console.log('result:');
-    //// console.log(result);
     let epoch_end_unix = result.epoch_end_unix;
 
     // if it is in storage, then proceed to handle it with updateTimeDisplay...
@@ -61,8 +58,6 @@ var DELAY = 1;
     }
 
     if (totSecs > 0) {
-      // update badge
-      //// console.log("refreshing countdown badge text");
 
       // refresh badge text
       chrome.action.setBadgeText({
@@ -70,7 +65,7 @@ var DELAY = 1;
       });
       // refresh tooltip text
       chrome.action.setTitle({
-        title: "Osmosis Companion (Unofficial)\n\nNext $OSMO rewards in:\n" + prettyPrint + "\n\n\nClick here for science!\n\n"
+        title: "Osmosis Companion\n\nNext $OSMO rewards in:\n" + prettyPrint + "\n\n"
       });
 
     } else {
@@ -79,10 +74,10 @@ var DELAY = 1;
       });
 
       // only call API again after ~20 minutes, as it seems to be delayed during rewards...
-      if (totSecs > -1200) {
+      if (totSecs > -600) {
 
         chrome.action.setTitle({
-          title: "Osmosis Companion (Unofficial)\n\nClaim your rewards now!\n\nClick here for science!\n\n\nGetting next epoch from API in " + Math.floor((1200 + totSecs) / 60) + " minutes...\n\n"
+          title: "Osmosis Companion\n\nClaim your rewards now!\n\n\nGetting next epoch from API in " + Math.floor((600 + totSecs) / 60) + " minutes...\n\n"
         });
 
       } else {
