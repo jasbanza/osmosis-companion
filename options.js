@@ -167,9 +167,9 @@ document.addEventListener('DOMContentLoaded', async function() {
   document.getElementById("btnSaveAddress").onclick = btnSave_onclick;
   document.getElementById("btnClearAddress").onclick = btnClear_onclick;
 
-  // document.getElementById("btnAutoderive").onclick = btnAutoderive_onClick;
-  // document.getElementById("btnCancelAutoderive").onclick = btnCancelAutoderive_onClick;
-  // document.getElementById("btnConfirmAutoderive").onclick = btnConfirmAutoderive_onClick;
+  document.getElementById("btnAutoderive").onclick = btnAutoderive_onClick;
+  document.getElementById("btnCancelAutoderive").onclick = btnCancelAutoderive_onClick;
+  document.getElementById("btnConfirmAutoderive").onclick = btnConfirmAutoderive_onClick;
 
 
   restore_options();

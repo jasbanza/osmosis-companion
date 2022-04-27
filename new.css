@@ -1,0 +1,30 @@
+.new-indicator-parent {
+  position: relative;
+}
+
+.new-indicator {
+  display: none;
+  position: absolute;
+  left: 20px;
+  background-color: hsl(247, 44%, 40%);
+  color: #ffff99;
+  border: 1px solid #ffff00;
+  border-radius: 5px;
+  padding-top: 3px;
+  padding-bottom: 4px;
+  line-height: 1px;
+  width: 25px;
+  z-index: 999;
+}
+
+.new-indicator.show {
+  display: block;
+}
+
+.new-indicator::before {
+  font-family: sans-serif;
+  content: 'new';
+  font-size: 9px;
+  padding-left: 3px;
+  padding-right: 2px;
+}

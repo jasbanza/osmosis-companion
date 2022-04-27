@@ -4,8 +4,10 @@
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="popup.css">
-  <title>Osmosis Companion by @jasbanza</title>
+  <link rel="stylesheet" href="new.css">
+  <title>Osmosis Companion v0.4.0 by @jasbanza</title>
   <script type="text/javascript" src="popup.js"></script>
+  <script type="text/javascript" src="new.js"></script>
   <script type="text/javascript" src="osmo.js"></script>
   <script type="text/javascript" src="companion.js"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;600;700&display=swap">
@@ -46,7 +48,7 @@
             <div>
               Companion
             </div>
-            <div style="font-size:6pt">version 0.3.8</div>
+            <div style="font-size:6pt">version 0.4.0</div>
           </a>
           <span class="tooltiptext tooltip-left">View on GitHub</span>
         </div>
@@ -58,7 +60,10 @@
           <div class="toolbar-item tooltip">My Pools<span class="tooltiptext tooltip-right">wen? #soon</span></div>
         </div>
         <!-- Official Osmosis socials -->
-        <div class="toolbar-section">
+        <div class="toolbar-section new-indicator-parent">
+          <div class="new-indicator" style="left:55px;top:-5px;">
+
+          </div>
           <a href="https://t.me/osmosis_chat" target="_blank">
             <div class="toolbar-item toolbar-icon tooltip">
               <div class="svg-icon" style="background-image:url('images/telegram2.svg');"></div>
@@ -91,7 +96,11 @@
 
       <!-- Asthetics -->
       <div class="corners">
-        <div class="corners-mask">
+        <!-- <div class="corners-mask">
+        </div> -->
+        <div class="corners-mask-dex">
+        </div>
+        <div class="corners-mask-external">
         </div>
       </div>
 
@@ -99,10 +108,88 @@
 
 
     <!-- "My Assets" tab -->
-    <div class="wrapper selected" id="tab_myAssets">
-      <div class="table">
+    <div class="wrapper selected osmosis" id="tab_myAssets">
+
+      <div class="table-sections">
+        <div class="table-section dex">
+          <div class="img"></div>
+        </div>
+        <div class="gap">
+
+        </div>
+        <div class="table-section external new-indicator-parent">
+          <div class="img"></div>
+          <div class="new-indicator" style="left:175px;top:0px;">
+          </div>
+        </div>
+      </div>
+
+      <!-- new div table -->
+
+      <div class="new-table">
+        <div class="thead">
+
+          <div class="tr">
+            <div class="td rank">
+              <p class="table-header-text">
+                <div class="sort-button after default-ascending" data-sort="rank" title="Sort by asset liquidity ranking">#</div>
+              </p>
+            </div>
+            <div class="td asset">
+              <p class="table-header-text">
+                <div class="sort-button after default-ascending" data-sort="name" title="Sort asset alphabetically">Asset / Chain</div>
+              </p>
+            </div>
+            <div class="td price">
+              <p class="table-header-text">
+                <div class="sort-button" data-sort="price" title="Sort by 'Price'">Price</div>
+              </p>
+            </div>
+            <div class="td change-1h">
+              <p class="table-header-text">
+                <div class="sort-button change" data-sort="change_1h" title="Sort by 1 hour price change">1h</div>
+              </p>
+            </div>
+            <div class="td change-24h">
+              <p class="table-header-text">
+                <div class="sort-button change" data-sort="change_24h" title="Sort by 24 hour price change">24h</div>
+              </p>
+            </div>
+            <div class="td change-7d">
+              <p class="table-header-text">
+                <div class="sort-button change" data-sort="change_7d" title="Sort by 7 day price change">7d</div>
+              </p>
+            </div>
+            <div class="td dex-balance">
+              <p class="table-header-text">
+                <div class="sort-button" data-sort="dex-balance" title="Sort by your dex wallet balance">Balance</div>
+              </p>
+            </div>
+            <div class="td dex-value">
+              <p class="table-header-text">
+                <div class="sort-button" data-sort="dex-value" title="Sort by your dex wallet USD value">Value</div>
+              </p>
+            </div>
+            <div class="td gap">
+            </div>
+            <div class="td external-balance">
+              <p class="table-header-text">
+                <div class="sort-button" data-sort="external-balance" title="Sort by your external wallet's balance">Balance</div>
+              </p>
+            </div>
+            <div class="td external-value">
+              <p class="table-header-text">
+                <div class="sort-button" data-sort="external-value" title="Sort by your external wallet's USD value">Value</div>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="table-wrapper">
         <table style="width: 100%; padding-bottom: 32px;">
-          <thead>
+          <!-- <thead>
             <tr class="table-header">
               <td class="inner-td td-rank">
                 <p class="table-header-text">
@@ -145,7 +232,7 @@
                 </p>
               </td>
             </tr>
-          </thead>
+          </thead> -->
           <tbody style="width: 100%;" id="assets_tbody"></tbody>
         </table>
 

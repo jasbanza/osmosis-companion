@@ -15,7 +15,9 @@ function btnRefresh_onClick() {
 
 function btnDetachWindow_onClick() {
   closeWindow();
-  window.open("popup.html?detached=true", "Osmosis Companion", "popup,location=off,height=535,width=645");
+  // window.open("popup.html?detached=true", "Osmosis Companion", "popup,location=off,height=535,width=645");
+  // window.open("popup.html?detached=true", "Osmosis Companion", "popup,location=off,height=700,width=772");
+  window.open("popup.html?detached=true", "Osmosis Companion", "popup,location=off,height=700,width=800");
 
 }
 
@@ -269,7 +271,7 @@ function render_assets(assets) {
           // get exponent (for decimal point)
           let exponent = 1;
           asset.denom_units.forEach((denom_unit, i) => {
-            if (denom_unit.denom.toLowerCase() == asset.symbol.toLowerCase()) {
+            if (denom_unit.denom.toLowerCase() == asset.display.toLowerCase()) {
               exponent = denom_unit.exponent;
             }
           });
@@ -442,22 +444,14 @@ function compareFields(a, b, options) {
   // a.dataset[options.sortBy].toLowerCase() > b.dataset[options.sortBy].toLowerCase()
   var compareA, compareB;
   switch (options.sortBy) {
-    case "rank":
-    case "liquidity":
-    case 'price':
-    case 'change_1h':
-    case 'change_24h':
-    case 'change_7d':
-    case 'balance':
-    case 'value':
-      compareA = parseFloat(a.dataset[options.sortBy]);
-      compareB = parseFloat(b.dataset[options.sortBy]);
-      break;
     case "name":
       compareA = a.dataset[options.sortBy].toLowerCase();
       compareB = b.dataset[options.sortBy].toLowerCase();
       break;
     default:
+      compareA = parseFloat(a.dataset[options.sortBy]);
+      compareB = parseFloat(b.dataset[options.sortBy]);
+      break;
       break;
   }
   if (options.sortOrder == "descending") {
@@ -546,7 +540,8 @@ document.addEventListener('DOMContentLoaded', function() {
   if (findGetParameter("detached")) {
     document.getElementById("btnDetachWindow").style.display = "none";
     document.getElementById("aOpenInTab").style.display = "";
-    window.resizeTo(535, 645);
+    // window.resizeTo(535, 645);
+    window.resizeTo(700, 772);
     // window.resizeTo(555,700);
 
   }
