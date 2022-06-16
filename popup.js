@@ -112,10 +112,13 @@ function render_wallet_balances(arrWalletBalances) {
   var total = 0;
   arrWalletBalances.forEach((walletBalance, i) => {
     // if there is a balance, update it, else set to zero.
-    var row = document.querySelector("[data-ticker='" + walletBalance.symbol + "']");
+    // var row = document.querySelector("[data-ticker='" + walletBalance.symbol + "']");
+    var row = document.querySelector("[data-denom='" + walletBalance.denom + "']");
     var value = walletBalance.amount * row.dataset.price;
-    document.querySelector("[data-ticker='" + walletBalance.symbol + "'] .td-balance p").innerHTML = format_decimals(walletBalance.amount);
-    document.querySelector("[data-ticker='" + walletBalance.symbol + "'] .td-value p").innerHTML = "$" + value.toFixed(2).toLocaleString('en-US');
+    // document.querySelector("[data-ticker='" + walletBalance.symbol + "'] .td-balance p").innerHTML = format_decimals(walletBalance.amount);
+    document.querySelector("[data-denom='" + walletBalance.denom + "'] .td-balance p").innerHTML = format_decimals(walletBalance.amount);
+    // document.querySelector("[data-ticker='" + walletBalance.symbol + "'] .td-value p").innerHTML = "$" + value.toFixed(2).toLocaleString('en-US');
+    document.querySelector("[data-denom='" + walletBalance.denom + "'] .td-value p").innerHTML = "$" + value.toFixed(2).toLocaleString('en-US');
     row.dataset.balance = walletBalance.amount;
     row.dataset.value = value;
     total += value;
@@ -212,6 +215,7 @@ function render_tokens(tokens, change, assetlist) {
     document.querySelector("#assets_tbody .inner-tr:last-child img").onerror = img_onerror;
     // set dataset attribute for price:
     row.dataset.rank = (i + 1);
+    row.dataset.denom = token.denom;
     row.dataset.ticker = token.symbol;
     row.dataset.name = token.name;
     row.dataset.price = token.price;
@@ -257,7 +261,8 @@ function render_assets(assets) {
         // (this is a workaround until there's a better API to get price, liquidity and volume data...)
         isAssetFoundInTokenArray = false;
         tokens.forEach((token, i) => {
-          if (token.symbol == asset.symbol) {
+          if (token.denom == asset.base) {
+            // if (token.symbol == asset.symbol) { // replaced with denom lookup, due to mismatch with wrapped symbols
             isAssetFoundInTokenArray = true;
           }
         });
@@ -277,6 +282,7 @@ function render_assets(assets) {
           // build wallet balances
           arrWalletBalances.push({
             "symbol": asset.symbol,
+            "denom": balance.denom,
             "amount": (exponent == 0) ? balance.amount * 1 : balance.amount / (10 ** exponent)
           });
           ////console.log(balance.amount);
@@ -413,7 +419,7 @@ function getCurrentSortOptions() {
 function setSortFromOptions(options) {
   document.querySelectorAll(".sort-button").forEach((sortButton, i) => {
     sortButton.classList.remove("ascending", "descending");
-    if (sortButton.dataset.sort == options.sortBy) {
+    if (sortButton.dataset.sort == options?.sortBy) {
       sortButton.classList.add(options.sortOrder);
       return;
     }

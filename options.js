@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
   restore_options();
 
-  var rates = await RATES.get(); // get rates
+  // var rates = await RATES.get(); // get rates
 
   // if(SETTINGS.get)
 
