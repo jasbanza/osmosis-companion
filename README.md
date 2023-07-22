@@ -1,5 +1,5 @@
 # Osmosis Companion
-
+ 
 ## A companion utility for https://app.osmosis.zone & https://info.osmosis.zone
 
 Chrome Webstore: [https://chrome.google.com/webstore/detail/osmosis-companion/gdfaagnfjplgkajlggjfnimdogmgcjob](https://chrome.google.com/webstore/detail/osmosis-companion/gdfaagnfjplgkajlggjfnimdogmgcjob)
