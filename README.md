@@ -3,7 +3,11 @@
 ***A companion utility for https://app.osmosis.zone & https://info.osmosis.zone***
 
 ### 📲 Free Download:
--  [Chrome Extension](https://chrome.google.com/webstore/detail/osmosis-companion/gdfaagnfjplgkajlggjfnimdogmgcjob)  *... don't forget to 📌 it!* 😉
+- [Chrome Extension](https://chrome.google.com/webstore/detail/osmosis-companion/gdfaagnfjplgkajlggjfnimdogmgcjob)  *... don't forget to 📌 it!* 😉
+- [Android](#free-download)
+- [iOS](#free-download)
+- [MacOS](#free-download)
+- [Windows](#free-download)
 
 
 ### 🧩 Features:
