@@ -17,7 +17,7 @@
 - 💡 Stays open while you trade, with the **⛶ detatch** button.
 
 ### 💡 Roadmap:
- The following upcoming features can be found in _[the entire project progress](https://github.com/users/jasbanza/projects/1/views/4)_
+ The following upcoming features can be found in _[the project page](https://github.com/users/jasbanza/projects/1/views/4)_
 - 💫 External IBC wallet balances ```Soon™```
 - 💱 Transaction overview & export ```Soon™```
 - 🔔 Customizable price alerts ```Soon™```
