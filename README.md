@@ -21,7 +21,7 @@
 - 🤖 Opportunity monitor ```Soon™```
 
 
-### 🕹️ Involvement:
+### 🕹️ Get Involved!
 - 👉 _[Join the Telegram group](https://t.me/OsmosisCompanionChat)_ to share your ideas, give feedback or chat!
 - If you enjoy this extension, _[please support me](https://app.starname.me/profile/jason)_ and spread the word!
 - Also [consider rating ⭐⭐⭐⭐⭐ & leaving a comment.](https://chrome.google.com/webstore/detail/osmosis-companion/gdfaagnfjplgkajlggjfnimdogmgcjob)
