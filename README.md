@@ -4,10 +4,10 @@
 
 ### 📲 Free Download:
 - [Chrome Extension](https://chrome.google.com/webstore/detail/osmosis-companion/gdfaagnfjplgkajlggjfnimdogmgcjob)  *... don't forget to 📌 it!* 😉
-- [Android](#free-download)
-- [iOS](#free-download)
-- [MacOS](#free-download)
-- [Windows](#free-download)
+- [Android](#-free-download)
+- [iOS](#-free-download)
+- [MacOS](#-free-download)
+- [Windows](#-free-download)
 
 
 ### 🧩 Features:
