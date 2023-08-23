@@ -19,6 +19,7 @@ Also consider rating ⭐⭐⭐⭐⭐ & leaving a comment.
 [Join the Telegram group for feedback & share your ideas](https://t.me/OsmosisCompanionChat)
 
 ## Roadmap:
+Undergoing re-write using quasar.dev, a Vue.js framework.
 [Click to view the roadmap](https://github.com/users/jasbanza/projects/1/views/4)
 
 
